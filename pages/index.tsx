@@ -51,7 +51,7 @@ const Home: NextPage = () => {
       <section>
         <div className="text-center flex flex-col gap-3 justify-center p-10">
           <h3 className="font-bold text-6xl">
-            Let`'`s Increase Your <br />
+            Let&apos;s Increase Your <br />
             <span className="text-green-400">Knowledge</span>
           </h3>
 
