@@ -2,6 +2,9 @@ import type { NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import Button from "../components/Button";
+import Footer from "../components/Footer";
+import Navbar from "../components/Navbar";
 import styles from "../styles/Home.module.css";
 
 const Home: NextPage = () => {
@@ -9,71 +12,23 @@ const Home: NextPage = () => {
 
   return (
     <div>
-      <nav className="flex gap-3 px-10 py-4">
-        <h1 className="font-semibold text-2xl">
-          <span className="text-green-400 font-extrabold ">PERPUS</span>
-          <span className="text-gray-700">kita</span>
-        </h1>
-
-        <div className="flex w-full justify-between">
-          <div className="flex gap-3">
-            {[
-              { name: "Home", route: "/" },
-              { name: "Find Your Book", route: "/find" },
-              { name: "About Us", route: "/about" },
-            ].map((e) => (
-              <Link key={e.name} href={e.route}>
-                <a
-                  className={
-                    "mx-2 text-lg font-medium " +
-                    (pathname == e.route ? "text-green-400" : "")
-                  }
-                >
-                  {e.name}
-                </a>
-              </Link>
-            ))}
-          </div>
-          <div className="flex gap-3">
-            <Link href="/login">
-              <a
-                className={
-                  "mx-2 cursor-pointer text-lg font-medium hover:bg-green-600 py-2 px-6 bg-green-400 text-white rounded-full"
-                }
-              >
-                Login
-              </a>
-            </Link>
-          </div>
-        </div>
-      </nav>
-
+      <Navbar />
       <section>
-        <div className="text-center flex flex-col gap-3 justify-center p-10">
+        <div className="text-center flex flex-col gap-3 justify-center mt-11">
           <h3 className="font-bold text-6xl">
             Let&apos;s Increase Your <br />
             <span className="text-green-400">Knowledge</span>
           </h3>
 
-          <small className="text-gray-300">
-            Find Your Favorite Book and Start Increase Your Knowledge
-          </small>
+          <small className="text-gray-300">Find Your Favorite Book and Start Increase Your Knowledge</small>
 
           <div className="flex gap-3 justify-center">
-            <button
-              className={
-                "mx-2 cursor-pointer text-lg font-medium hover:bg-green-600 py-2 px-6 bg-green-400 text-white rounded-full"
-              }
-            >
-              Get Started
-            </button>
-            <button
-              className={
-                "mx-2 cursor-pointer text-lg font-medium py-2 px-6 rounded-full border-2 border-green-400 text-green-600 "
-              }
-            >
-              About Us
-            </button>
+            <Link href="#">
+              <Button color="red">Get Started</Button>
+            </Link>
+            <Link href="#">
+              <Button type="outlined">About Us</Button>
+            </Link>
           </div>
         </div>
       </section>
@@ -83,24 +38,20 @@ const Home: NextPage = () => {
           <Image height={900} width={1600} src="/groups.png" alt="People" />
         </div>
       </section>
-      
 
       <section className="flex flex-col justify-center text-center">
-        <h3 className="font-medium text-2xl">
-          Why Chose <span className="text-green-600">PerpusKita</span>
+        <h3 className="font-medium text-3xl">
+          Why Chose <span className="text-green-600 font-semibold">PERPUSKita</span>
         </h3>
 
-        <div className="flex gap-10 lg:gap-24 justify-center mt-10">
+        <div className="flex gap-3 lg:gap-9 justify-center mt-10">
           {[
             {
               name: "Book",
               image: "/books.png",
               contentTop: (
                 <div className="text-white font-medium">
-                  More than <br /> 5000{" "}
-                  <span className=" font-bold text-yellow-300">
-                    Book Collection
-                  </span>
+                  More than <br /> 5000 <span className=" font-bold text-yellow-300">Book Collection</span>
                 </div>
               ),
               contentBottom: (
@@ -116,8 +67,7 @@ const Home: NextPage = () => {
               image: "/worlds.png",
               contentTop: (
                 <div className="text-white font-medium">
-                  More than <br /> 500{" "}
-                  <span className=" font-bold text-gray-800">Branches</span>
+                  More than <br /> 500 <span className=" font-bold text-gray-800">Branches</span>
                 </div>
               ),
               contentBottom: (
@@ -133,10 +83,7 @@ const Home: NextPage = () => {
               image: "/books.png",
               contentTop: (
                 <div className="text-white font-medium">
-                  More than <br /> 1,500{" "}
-                  <span className=" font-bold text-yellow-300">
-                    Certified Librarians
-                  </span>
+                  More than <br /> 1,500 <span className=" font-bold text-yellow-300">Certified Librarians</span>
                 </div>
               ),
               contentBottom: (
@@ -168,7 +115,7 @@ const Home: NextPage = () => {
           to find your favorite book
         </small>
 
-        <div className="flex gap-10 lg:gap-24 justify-center gap-3 my-4">
+        <div className="flex gap-10 lg:gap-24 justify-center gap-3 my-4 ">
           {[
             { name: "Login Student", route: "/login", image: "/siswa.png" },
             { name: "Login Admin", route: "/login", image: "/admin.png" },
@@ -176,21 +123,14 @@ const Home: NextPage = () => {
             <div key={e.name} className="flex gap-3 flex-col">
               <Image src={e.image} height={430} width={280} />
 
-              <button
-                onClick={() => push(e.route)}
-                className={
-                  "mx-2 cursor-pointer text-lg font-medium hover:bg-green-600 py-2 px-6 bg-green-400 text-white rounded-full"
-                }
-              >
-                {e.name}
-              </button>
+              <Button>{e.name}</Button>
             </div>
           ))}
         </div>
       </section>
 
-      <section className="p-3 text-center bg-green-400 text-white my-24">
-        Made with Love By Part of <span title="Damar dan Zainal">Kelompok 1</span> with  💕😘
+      <section>
+        <Footer />
       </section>
     </div>
   );
