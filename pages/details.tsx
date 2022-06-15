@@ -15,7 +15,9 @@ export default function details() {
             />
             <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
               <h2 className="text-sm  text-gray-700 tracking-widest">Author</h2>
-              <h1 className="text-gray-900 text-4xl font-bold mb-1">Book Tittle</h1>
+              <h1 className="text-gray-900 text-4xl font-bold mb-1">
+                Book Tittle
+              </h1>
               <div className="flex mb-4">
                 <span className=" font-normal text-base text-gray-700">
                   {" "}
@@ -23,11 +25,12 @@ export default function details() {
                 </span>
               </div>
               <p className="leading-relaxed mb-10">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem blanditiis ipsa ipsum quae quia quos
-                saepe totam? Aliquam deleniti mollitia reiciendis totam! Ad blanditiis dolorum et molestias praesentium
-                saepe voluptates.
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem
+                blanditiis ipsa ipsum quae quia quos saepe totam? Aliquam
+                deleniti mollitia reiciendis totam! Ad blanditiis dolorum et
+                molestias praesentium saepe voluptates.
               </p>
-              <Button px="40">Pinjam</Button>
+              <Button px={100}>apply for a loan</Button>
             </div>
           </div>
         </div>

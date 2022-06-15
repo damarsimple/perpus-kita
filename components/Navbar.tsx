@@ -20,12 +20,21 @@ export default function Navbar() {
             { name: "About Us", route: "/about" },
           ].map((e) => (
             <Link key={e.name} href={e.route}>
-              <a className={"mx-2 text-lg font-medium " + (pathname == e.route ? "text-green-400" : "")}>{e.name}</a>
+              <a
+                className={
+                  "mx-2 text-lg font-normal" +
+                  (pathname == e.route ? " text-green-400 " : "")
+                }
+              >
+                {e.name}
+              </a>
             </Link>
           ))}
         </div>
         <div className="flex ml-12">
-          <Button link="/login">Login</Button>
+          <Button link="/login" px={20}>
+            Login
+          </Button>
         </div>
       </div>
     </nav>

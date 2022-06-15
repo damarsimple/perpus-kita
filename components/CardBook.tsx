@@ -21,7 +21,7 @@ export default function CardBook({ children, image, deskripsi, author }: CardPro
           <h5 className="text-gray-900 text-xl font-semibold">{children}</h5>
           <p className="text-gray-400 font-normal  mb-4">{deskripsi}</p>
           <Link href={"/details"}>
-            <Button link="/details">Details</Button>
+            <Button link="/details" px={20}>Details</Button>
           </Link>
         </div>
       </div>

@@ -1,3 +1,4 @@
+import { gql, useQuery } from "@apollo/client";
 import type { NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -5,34 +6,74 @@ import { useRouter } from "next/router";
 import Button from "../components/Button";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
+import { Book } from "../generated";
 import styles from "../styles/Home.module.css";
 
 const Home: NextPage = () => {
   const { pathname, push } = useRouter();
+
+  const EXCHANGE_RATES = gql`
+    query {
+      findManyBook {
+        id
+        title
+      }
+    }
+  `;
+
+  const { loading, error, data } = useQuery<{ findManyBook: Book[] }>(
+    EXCHANGE_RATES
+  );
+
+  if (loading)
+    return (
+      <div className=" h-screen text-center  align-middle">
+        <p className="text-3xl font-semibold text-green-400">
+          PERPUS<span className="text-gray-600 text-xl">kita</span>
+        </p>
+        <p className="text-gray-400 text-xl">Loading...</p>
+      </div>
+    );
+
+  // if (error) return <p>Error</p>;
 
   return (
     <div>
       <Navbar />
       <section>
         <div className="text-center flex flex-col gap-3 justify-center mt-11">
-          <h3 className="font-bold text-6xl">
+          <h3 className="font-bold text-6xl text-gray-700">
             Let&apos;s Increase Your <br />
             <span className="text-green-400">Knowledge</span>
           </h3>
 
-          <small className="text-gray-300">Find Your Favorite Book and Start Increase Your Knowledge</small>
+          <p className="text-gray-400">
+            Find Your Favorite Book and Start Increase Your Knowledge
+          </p>
 
           <div className="flex gap-3 justify-center">
             <Link href="#">
-              <Button color="red">Get Started</Button>
+              <Button color="red" px={20}>
+                Get Started
+              </Button>
             </Link>
             <Link href="#">
-              <Button type="outlined">About Us</Button>
+              <Button type="outlined" px={20}>
+                About Us
+              </Button>
             </Link>
           </div>
         </div>
       </section>
-
+      <div>
+        {/* {data?.findManyBook.map(({ id, title }) => (
+          <div key={id}>
+            <p>
+              {id}: {title}
+            </p>
+          </div>
+        ))} */}
+      </div>
       <section>
         <div className="flex justify-center w-full h-full">
           <Image height={900} width={1600} src="/groups.png" alt="People" />
@@ -41,7 +82,8 @@ const Home: NextPage = () => {
 
       <section className="flex flex-col justify-center text-center">
         <h3 className="font-medium text-3xl">
-          Why Chose <span className="text-green-600 font-semibold">PERPUSKita</span>
+          Why Chose{" "}
+          <span className="text-green-500 font-semibold">PERPUSKita</span>
         </h3>
 
         <div className="flex gap-3 lg:gap-9 justify-center mt-10">
@@ -50,12 +92,15 @@ const Home: NextPage = () => {
               name: "Book",
               image: "/books.png",
               contentTop: (
-                <div className="text-white font-medium">
-                  More than <br /> 5000 <span className=" font-bold text-yellow-300">Book Collection</span>
+                <div className="text-white text-xl font-medium">
+                  More than <br /> 5000{" "}
+                  <span className=" font-bold text-yellow-300">
+                    Book Collection
+                  </span>
                 </div>
               ),
               contentBottom: (
-                <div className="opacity-70 font-thin text-white">
+                <div className="opacity-60 font-normal text-white">
                   We are here with a total of
                   <br /> 5,285 book collections.
                 </div>
@@ -66,12 +111,13 @@ const Home: NextPage = () => {
               name: "World",
               image: "/worlds.png",
               contentTop: (
-                <div className="text-white font-medium">
-                  More than <br /> 500 <span className=" font-bold text-gray-800">Branches</span>
+                <div className="text-white text-xl font-medium">
+                  More than <br /> 500{" "}
+                  <span className=" font-bold text-gray-800">Branches</span>
                 </div>
               ),
               contentBottom: (
-                <div className="opacity-80 font-thin text-white">
+                <div className="opacity-60 font-normal text-white">
                   We are present with a total <br /> of 565 branches and spread
                   <br /> across 525 cities in Indonesia.
                 </div>
@@ -82,12 +128,15 @@ const Home: NextPage = () => {
               name: "Book",
               image: "/books.png",
               contentTop: (
-                <div className="text-white font-medium">
-                  More than <br /> 1,500 <span className=" font-bold text-yellow-300">Certified Librarians</span>
+                <div className="text-white text-xl font-medium">
+                  More than <br /> 1,500{" "}
+                  <span className=" font-bold text-yellow-300">
+                    Certified Librarians
+                  </span>
                 </div>
               ),
               contentBottom: (
-                <div className="opacity-70 font-thin text-white">
+                <div className="opacity-60 font-normal text-white">
                   We have 1620 librarians <br /> and all of them are certified
                 </div>
               ),
@@ -106,16 +155,16 @@ const Home: NextPage = () => {
       </section>
 
       <section className="flex flex-col justify-center text-center my-24">
-        <h3 className="font-medium text-2xl">
+        <h3 className="font-medium text-3xl">
           Login to <span className="text-green-600">Start</span>
         </h3>
 
-        <small className="text-gray-300">
+        <small className="text-gray-400">
           Login to your account and start <br />
           to find your favorite book
         </small>
 
-        <div className="flex gap-10 lg:gap-24 justify-center gap-3 my-4 ">
+        <div className="flex gap-10 lg:gap-24 justify-center my-4 ">
           {[
             { name: "Login Student", route: "/login", image: "/siswa.png" },
             { name: "Login Admin", route: "/login", image: "/admin.png" },

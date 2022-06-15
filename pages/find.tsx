@@ -18,7 +18,7 @@ export default function Find() {
             <input type="text" className="py-1 px-32 rounded-xl border-green-600 text-gray-700" />
             <div className="h-full ml-4">
               <Link href="#">
-                <Button>Search</Button>
+                <Button px={20}>Search</Button>
               </Link>
             </div>
           </div>
@@ -28,42 +28,42 @@ export default function Find() {
             {[
               {
                 name: "Hooked",
-                image: "BookHooked.jpg",
+                image: "/bookHooked.jpg",
                 deskripsi: "Buku Oke.",
                 author: "Jenal",
               },
               {
                 name: "The Power of Habit",
-                image: "BookHooked.jpg",
+                image: "/bookHooked.jpg",
                 deskripsi: "Buku Bagus.",
                 author: "Jenal",
               },
               {
                 name: "Atomic Habit",
-                image: "BookHooked.jpg",
+                image: "/bookHooked.jpg",
                 deskripsi: "Buku Keren.",
                 author: "Jenal",
               },
               {
                 name: "Hooked",
-                image: "BookHooked.jpg",
+                image: "/bookHooked.jpg",
                 deskripsi: "Buku Oke.",
                 author: "Jenal",
               },
               {
                 name: "The Power of Habit",
-                image: "BookHooked.jpg",
+                image: "/bookHooked.jpg",
                 deskripsi: "Buku Bagus.",
                 author: "Jenal",
               },
               {
                 name: "Atomic Habit",
-                image: "BookHooked.jpg",
+                image: "/bookHooked.jpg",
                 deskripsi: "Buku Keren.",
                 author: "Jenal",
               },
             ].map((e) => (
-              <div className="mb-10">
+              <div className="mb-10" key={e.name}>
                 <CardBook image={e.image} deskripsi={e.deskripsi} author={e.author}>
                   {e.name}
                 </CardBook>
