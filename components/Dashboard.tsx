@@ -39,7 +39,7 @@ export default function Dashboard() {
                 },
                 {
                   title: "User Data",
-                  route: "#",
+                  route: "/users",
                   isAdmin: true,
                   img: (
                     <div>
@@ -107,7 +107,7 @@ export default function Dashboard() {
                 },
                 {
                   title: "Loan Data",
-                  route: "#",
+                  route: "/login",
                   isAdmin: true,
                   img: (
                     <div>

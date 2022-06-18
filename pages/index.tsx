@@ -3,6 +3,7 @@ import type { NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { title } from "process";
 import Button from "../components/Button";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
@@ -13,30 +14,68 @@ const Home: NextPage = () => {
   const { pathname, push } = useRouter();
 
   const EXCHANGE_RATES = gql`
-    query {
-      findManyBook {
-        id
+    query Query($take: Int) {
+      findManyBook(take: $take) {
         title
+        author {
+          name
+        }
+        id
       }
     }
   `;
 
-  const { loading, error, data } = useQuery<{ findManyBook: Book[] }>(
-    EXCHANGE_RATES
-  );
+  const BOOK_COUNT = gql`
+    query FindManyBook {
+      findManyBookCount
+    }
+  `;
+  // const FIRST_BOOKS = gql`
+  //   query FindFirstBook {
+  //     findFirstBook {
+  //       title
+  //     }
+  //   }
+  // `;
 
-  if (loading)
-    return (
-      <div className=" h-screen text-center  align-middle">
-        <p className="text-3xl font-semibold text-green-400">
-          PERPUS<span className="text-gray-600 text-xl">kita</span>
-        </p>
-        <p className="text-gray-400 text-xl">Loading...</p>
-      </div>
-    );
+  // const { data } = useQuery<{ findManyBook: Book[] }>(EXCHANGE_RATES, {
+  //   variables: { take: 1 },
+  // });
+
+  const { data } = useQuery<{ findManyBook: Book[] }>(EXCHANGE_RATES);
+  const { data } = useQuery(EXCHANGE_RATES);
+
+  // if (loading)
+  //   return (
+  //     <div className=" h-screen text-center  align-middle">
+  //       <p className="text-3xl font-semibold text-green-400">
+  //         PERPUS<span className="text-gray-600 text-xl">kita</span>
+  //       </p>
+  //       <p className="text-gray-400 text-xl">Loading...</p>
+  //     </div>
+  //   );
 
   // if (error) return <p>Error</p>;
 
+  // async function getServerSideProps() {
+  //   const { data } = await client.useQuery<({
+  //      Query($take: Int) {
+  //           findManyBook(take: $take) {
+  //             title
+  //             author {
+  //               name
+  //             }
+  //             id
+  //           }
+  //         }
+  //   })>;
+
+  //   return {
+  //     props: {
+  //       countries: data.countries.slice(0, 4),
+  //     },
+  //   };
+  // }
   return (
     <div>
       <Navbar />
@@ -73,6 +112,10 @@ const Home: NextPage = () => {
             </p>
           </div>
         ))} */}
+        {/* {dataM?.findManyBookCount.map(({  }) => ( */}
+        {/* <p>{data?.findFirstBook[0]}</p> */}
+        {/* {console.log(data?.findFirstBook.length)} */}
+        {/* ))} */}
       </div>
       <section>
         <div className="flex justify-center w-full h-full">

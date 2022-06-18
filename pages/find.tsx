@@ -14,8 +14,14 @@ export default function Find() {
           <h1 className="mt-16 font-semibold text-3xl text-gray-700 text-center">
             Find Your Favorite <span className="text-green-400"> Book</span> Now
           </h1>
+          <p className="text-gray-400 text-center mt-1">
+            Enter the title of the book to start the search.
+          </p>
           <div className="flex justify-center items-center mt-5">
-            <input type="text" className="py-1 px-32 rounded-xl border-green-600 text-gray-700" />
+            <input
+              type="text"
+              className="py-1 px-32 rounded-xl border-green-600 text-gray-700"
+            />
             <div className="h-full ml-4">
               <Link href="#">
                 <Button px={20}>Search</Button>
@@ -64,7 +70,11 @@ export default function Find() {
               },
             ].map((e) => (
               <div className="mb-10" key={e.name}>
-                <CardBook image={e.image} deskripsi={e.deskripsi} author={e.author}>
+                <CardBook
+                  image={e.image}
+                  deskripsi={e.deskripsi}
+                  author={e.author}
+                >
                   {e.name}
                 </CardBook>
               </div>
