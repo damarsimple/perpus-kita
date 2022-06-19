@@ -39,7 +39,7 @@ export default function Dashboard() {
                 },
                 {
                   title: "User Data",
-                  route: "/users",
+                  route: "/dashboard/users",
                   isAdmin: true,
                   img: (
                     <div>

@@ -29,7 +29,7 @@ export default function login() {
             />
             <div className="">
               <Button px={186} link="/dashboard">
-                Submit
+                Login
               </Button>
               <div className="mb-4"></div>
               <Button px={150} type="outlined">

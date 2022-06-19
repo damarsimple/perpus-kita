@@ -7,7 +7,7 @@ import { title } from "process";
 import Button from "../components/Button";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-import { Book } from "../generated";
+import { Book, findManyBookCountArgs } from "../generated";
 import styles from "../styles/Home.module.css";
 
 const Home: NextPage = () => {
@@ -43,17 +43,24 @@ const Home: NextPage = () => {
   // });
 
   const { data } = useQuery<{ findManyBook: Book[] }>(EXCHANGE_RATES);
-  const { data } = useQuery(EXCHANGE_RATES);
 
-  // if (loading)
-  //   return (
-  //     <div className=" h-screen text-center  align-middle">
-  //       <p className="text-3xl font-semibold text-green-400">
-  //         PERPUS<span className="text-gray-600 text-xl">kita</span>
-  //       </p>
-  //       <p className="text-gray-400 text-xl">Loading...</p>
-  //     </div>
-  //   );
+  type count = number;
+
+  const {
+    loading,
+    error,
+    data: BookCount,
+  } = useQuery<{ findManyBookCount: count }>(BOOK_COUNT);
+
+  if (loading)
+    return (
+      <div className=" h-screen text-center  align-middle">
+        <p className="text-3xl font-semibold text-green-400">
+          PERPUS<span className="text-gray-600 text-xl">kita</span>
+        </p>
+        <p className="text-gray-400 text-xl">Loading...</p>
+      </div>
+    );
 
   // if (error) return <p>Error</p>;
 
@@ -104,19 +111,15 @@ const Home: NextPage = () => {
           </div>
         </div>
       </section>
-      <div>
-        {/* {data?.findManyBook.map(({ id, title }) => (
+      {/* <div>
+        {data?.findManyBook.map(({ id, title }) => (
           <div key={id}>
             <p>
               {id}: {title}
             </p>
           </div>
-        ))} */}
-        {/* {dataM?.findManyBookCount.map(({  }) => ( */}
-        {/* <p>{data?.findFirstBook[0]}</p> */}
-        {/* {console.log(data?.findFirstBook.length)} */}
-        {/* ))} */}
-      </div>
+        ))}
+      </div> */}
       <section>
         <div className="flex justify-center w-full h-full">
           <Image height={900} width={1600} src="/groups.png" alt="People" />
@@ -136,16 +139,16 @@ const Home: NextPage = () => {
               image: "/books.png",
               contentTop: (
                 <div className="text-white text-xl font-medium">
-                  More than <br /> 5000{" "}
+                  More than <br /> {BookCount?.findManyBookCount}{" "}
                   <span className=" font-bold text-yellow-300">
                     Book Collection
                   </span>
                 </div>
               ),
               contentBottom: (
-                <div className="opacity-60 font-normal text-white">
+                <div className="opacity-80 font-normal text-white">
                   We are here with a total of
-                  <br /> 5,285 book collections.
+                  <br /> {BookCount?.findManyBookCount} book collections.
                 </div>
               ),
               bg: "bg-blue-400",
@@ -160,7 +163,7 @@ const Home: NextPage = () => {
                 </div>
               ),
               contentBottom: (
-                <div className="opacity-60 font-normal text-white">
+                <div className="opacity-80 font-normal text-white">
                   We are present with a total <br /> of 565 branches and spread
                   <br /> across 525 cities in Indonesia.
                 </div>
@@ -179,7 +182,7 @@ const Home: NextPage = () => {
                 </div>
               ),
               contentBottom: (
-                <div className="opacity-60 font-normal text-white">
+                <div className="opacity-80 font-normal text-white">
                   We have 1620 librarians <br /> and all of them are certified
                 </div>
               ),

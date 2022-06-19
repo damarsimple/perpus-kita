@@ -9,6 +9,7 @@ interface ButtonProp {
   type?: ButtonType;
   link?: string;
   px?: number;
+  action?: string;
 }
 export default function Button({
   children,
@@ -16,6 +17,7 @@ export default function Button({
   px = 4,
   type,
   link = "#",
+  action,
 }: ButtonProp) {
   let className;
   switch (type) {
@@ -35,6 +37,9 @@ export default function Button({
           paddingRight: px,
         }}
         className={className}
+        onClick={() => {
+          action;
+        }}
       >
         {children}
       </button>
