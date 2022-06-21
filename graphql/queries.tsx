@@ -1,13 +1,13 @@
 import { gql } from "@apollo/client";
 
 export const GET_USERS = gql`
-  query FindManyUser {
-    findManyUser {
+  query ($where: UserWhereInput) {
+    findManyUser(where: $where) {
       id
-      email
-      name
-      password
       username
+      name
+      email
+      password
       address
       balance
     }
@@ -30,6 +30,7 @@ export const ADD_USER = gql`
       name
       password
       address
+      isAdmin
     }
   }
 `;
@@ -59,3 +60,16 @@ export const FIND_USER = gql`
     }
   }
 `;
+
+// export const ADD_ADMIN = gql`
+//   mutation CreateOneUser($data: UserCreateInput!) {
+//     createOneUser(data: $data) {
+//       email
+//       name
+//       username
+//       password
+//       address
+//       isAdmin
+//     }
+//   }
+// `;

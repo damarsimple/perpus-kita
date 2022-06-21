@@ -1,8 +1,19 @@
 import { useQuery } from "@apollo/client";
 import { Dialog, Transition } from "@headlessui/react";
 import React, { Fragment } from "react";
-import { User } from "../../generated";
-import { FIND_USER } from "../../graphql/queries";
+import { User } from "../generated";
+import { FIND_USER } from "../graphql/queries";
+
+interface ModalProp {
+  isOpenEdit: boolean;
+  closeEditModal: Function;
+  onEdit: Function;
+  actionId: number;
+  name: string;
+  user: string;
+  pass: string;
+  address: string;
+}
 
 const EditUserModal = ({
   isOpenEdit,
@@ -13,7 +24,7 @@ const EditUserModal = ({
   user,
   pass,
   address,
-}) => {
+}: ModalProp) => {
   async function handleForm(e: any) {
     e.preventDefault();
     const nameEdit = e.target.name.value;
@@ -21,16 +32,16 @@ const EditUserModal = ({
     const userEdit = e.target.user.value;
     const addEdit = e.target.address.value;
 
-    onEdit(nameEdit, userEdit, passEdit, addEdit);
+    onEdit(nameEdit, userEdit, passEdit, addEdit, actionId);
   }
 
-  //   const {
-  //     loading,
-  //     error,
-  //     data: userData,
-  //   } = useQuery<{ findUniqueUser: User[] }>(FIND_USER, {
-  //     variables: { where: { id: actionId } },
-  //   });
+  const {
+    loading,
+    error,
+    data: userData,
+  } = useQuery<{ findUniqueUser: User[] }>(FIND_USER, {
+    variables: { where: { id: actionId } },
+  });
 
   //   if (loading) {
   //     <p>Loading</p>;
@@ -40,7 +51,11 @@ const EditUserModal = ({
   //   console.log(userData?.findUniqueUser["username"]);
   return (
     <Transition appear show={isOpenEdit} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={closeEditModal}>
+      <Dialog
+        as="div"
+        className="relative z-10"
+        onClose={() => closeEditModal()}
+      >
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -91,7 +106,10 @@ const EditUserModal = ({
                       type="text"
                       id="name"
                       name="name"
-                      value={name}
+                      // defaultValue={
+                      //   // userData != null ? userData?.findUniqueUser[0].name : ""
+                      //   name
+                      // }
                       className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                       placeholder="Full Name"
                       required
@@ -108,7 +126,7 @@ const EditUserModal = ({
                       type="text"
                       id="username"
                       name="user"
-                      value={user}
+                      // value={}
                       className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                       placeholder="Username"
                       required
@@ -125,7 +143,7 @@ const EditUserModal = ({
                       type="password"
                       id="password"
                       name="pass"
-                      value={pass}
+                      // value={pass}
                       className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                       required
                     />
@@ -141,7 +159,7 @@ const EditUserModal = ({
                       type="text"
                       id="address"
                       name="address"
-                      value={address}
+                      // value={address}
                       className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                       required
                       placeholder="Address"
@@ -158,7 +176,7 @@ const EditUserModal = ({
                     <button
                       type="button"
                       className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                      onClick={closeEditModal}
+                      onClick={() => closeEditModal()}
                     >
                       Cancel
                     </button>

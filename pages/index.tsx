@@ -88,13 +88,16 @@ const Home: NextPage = () => {
       <Navbar />
       <section>
         <div className="text-center flex flex-col gap-3 justify-center mt-11">
-          <h3 className="font-bold text-6xl text-gray-700">
-            Let&apos;s Increase Your <br />
-            <span className="text-green-400">Knowledge</span>
+          <h3 className="font-bold text-6xl text-gray-700 leading-10">
+            Let&apos;s Increase Your
+            <span className="text-green-400"> Knowledge</span>
+            <br />
+            <span className="text-4xl ">Wherever You Are</span>
           </h3>
 
           <p className="text-gray-400">
-            Find Your Favorite Book and Start Increase Your Knowledge
+            Find your favorite book wherever you are and we will send your
+            favorite book.
           </p>
 
           <div className="flex gap-3 justify-center">
@@ -127,9 +130,9 @@ const Home: NextPage = () => {
       </section>
 
       <section className="flex flex-col justify-center text-center">
-        <h3 className="font-medium text-3xl">
-          Why Chose{" "}
-          <span className="text-green-500 font-semibold">PERPUSKita</span>
+        <h3 className="font-medium text-3xl text-gray-700">
+          Featured from{" "}
+          <span className="text-green-500 font-semibold">PERPUS</span>Kita
         </h3>
 
         <div className="flex gap-3 lg:gap-9 justify-center mt-10">
@@ -159,7 +162,7 @@ const Home: NextPage = () => {
               contentTop: (
                 <div className="text-white text-xl font-medium">
                   More than <br /> 500{" "}
-                  <span className=" font-bold text-gray-800">Branches</span>
+                  <span className=" font-bold text-green-400">Branches</span>
                 </div>
               ),
               contentBottom: (
@@ -168,7 +171,7 @@ const Home: NextPage = () => {
                   <br /> across 525 cities in Indonesia.
                 </div>
               ),
-              bg: "bg-yellow-400",
+              bg: "bg-yellow-300",
             },
             {
               name: "Book",

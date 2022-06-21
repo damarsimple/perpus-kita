@@ -1,20 +1,12 @@
 import { useMutation, useQuery } from "@apollo/client";
-import { Dialog, Transition } from "@headlessui/react";
-import React, { Fragment, useState } from "react";
-import Button from "../../components/Button";
+import React, { useState } from "react";
 import Dashboard from "../../components/Dashboard";
 import { User } from "../../generated";
-import {
-  GET_USERS,
-  DEL_USER,
-  ADD_USER,
-  EDIT_USER,
-} from "../../graphql/queries";
+import { ADD_USER, DEL_USER, GET_USERS } from "../../graphql/queries";
 import AddUserModal from "../../modals/AddUserModal";
 import DeleteUserModal from "../../modals/DeleteUserModal";
-import EditUserModal from "../../modals/EditUserModal";
 
-export default function users({}) {
+export default function admin() {
   const {
     loading,
     error,
@@ -23,15 +15,15 @@ export default function users({}) {
     variables: {
       where: {
         isAdmin: {
-          equals: false,
+          equals: true,
         },
       },
     },
   });
 
-  let [isOpenDel, setIsOpenDel] = useState(false);
-  let [isOpenEdit, setIsOpenEdit] = useState(false);
-  let [isOpenAdd, setIsOpenAdd] = useState(false);
+  const [isOpenAdd, setIsOpenAdd] = useState(false);
+  const [isOpenDel, setIsOpenDel] = useState(false);
+  const [isOpenEdit, setIsOpenEdit] = useState(false);
   const [actionId, setActionId] = useState(Number);
 
   //ADD USER
@@ -59,7 +51,7 @@ export default function users({}) {
           username: usernameAdd,
           password: passAdd,
           address: addressAdd,
-          isAdmin: false,
+          isAdmin: true,
         },
       },
     });
@@ -79,7 +71,7 @@ export default function users({}) {
     onCompleted: (dataUser) => {
       setActionId(0);
       closeDelModal();
-      window.location.reload();
+      // window.location.reload();
     },
   });
 
@@ -94,89 +86,29 @@ export default function users({}) {
 
   function openDelModal(id: number) {
     setActionId(id);
-
-    setIsOpenDel(true);
     console.log(actionId);
+    setIsOpenDel(true);
   }
+
   //END DEL USER
 
   //EDIT USER
 
-  function closeEditModal() {
-    setActionId(0);
-    setIsOpenEdit(false);
-  }
-  function openEditModal(id: number) {
-    setActionId(id);
-    // if (id > 0) {
-    setIsOpenEdit(true);
-    // }
-
-    console.log(actionId);
-  }
-
-  const [updateOneUser] = useMutation(EDIT_USER, {
-    onCompleted: (dataUser) => {
-      setActionId(0);
-      setIsOpenEdit(false);
-      window.location.reload();
-    },
-  });
-
-  const onEdit = (
-    nameEdit: string,
-    usernameEdit: string,
-    passEdit: string,
-    addressEdit: string,
-    idEdit: number
-  ) => {
-    // e.preventDefault();
-    updateOneUser({
-      variables: {
-        data: {
-          name: nameEdit,
-          username: usernameEdit,
-          password: passEdit,
-          address: addressEdit,
-        },
-        where: {
-          id: idEdit,
-        },
-      },
-    });
-  };
-
   //END EDIT USER
 
-  // const [delId, setDelId] = useState("");
-
-  // const onClose = () => setDelId("");
-  // const openModal = (id) => setDelId(id);
-
-  // const [deleteOneUser] = useMutation(DEL_USER, {
-  //   onCompleted: () => setDelId(""),
-  // });
-
-  // const onDelete = (e) => {
-  //   e.preventDefault();
-  //   deleteOneUser({ variables: { id: delId } });
-  // };
   return (
-    <>
+    <div>
       <div className="flex flex-row h-screen">
         <Dashboard />
         <div className="px-16 py-4 text-white dark:bg-gray-700 h-screen w-screen">
           <div className="mt-10 mb-5 flex justify-between">
-            <h1 className="font-semibold text-2xl">Users Data</h1>
-            {/* <Button px={40} action={"openAddModal"}>
-              Add User
-            </Button> */}
+            <h1 className="font-semibold text-2xl">Admin Data</h1>
             <button
               type="button"
               className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
               onClick={openAddModal}
             >
-              Add User
+              Add Admin
             </button>
             <AddUserModal
               isOpenAdd={isOpenAdd}
@@ -184,7 +116,6 @@ export default function users({}) {
               onAdd={onAdd}
             />
           </div>
-
           <div className="mb-5">
             <p className="text-center text-gray-400">
               {loading ? "Data is being processed, please wait a moment" : ""}
@@ -214,24 +145,13 @@ export default function users({}) {
                     Address
                   </th>
                   <th scope="" className="px-6 py-3">
-                    Balance
-                  </th>
-                  <th scope="" className="px-6 py-3">
                     Action
                   </th>
                 </tr>
               </thead>
               <tbody>
                 {dataUser?.findManyUser.map(
-                  ({
-                    id,
-                    name,
-                    email,
-                    username,
-                    password,
-                    address,
-                    balance,
-                  }) => (
+                  ({ id, name, email, username, password, address }) => (
                     <tr
                       key={id}
                       className="border-b dark:bg-gray-800 dark:border-gray-700 odd:bg-white even:bg-gray-50 odd:dark:bg-gray-800 even:dark:bg-gray-700"
@@ -246,15 +166,13 @@ export default function users({}) {
                       <td className="py-4 px-4">{email}</td>
                       <td className="py-4 px-4">{username}</td>
                       <td className="py-4 px-4">{address}</td>
-                      <td className="py-4 px-4">{balance}</td>
                       <td className="py-4 px-4" key={id}>
                         <button
                           className=" mr-5 font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                          onClick={() => openEditModal(id)}
+                          // onClick={() => openEditModal(id)}
                         >
                           Edit
                         </button>
-
                         {/* <DeleteUser isOpen={} onClose={} onSubmit={}/> */}
                         <button
                           className="font-medium text-red-600 dark:text-red-500 hover:underline"
@@ -269,17 +187,6 @@ export default function users({}) {
                           onDel={onDel}
                         />
                       </td>
-                      <EditUserModal
-                        key={actionId}
-                        isOpenEdit={isOpenEdit}
-                        closeEditModal={closeEditModal}
-                        onEdit={onEdit}
-                        actionId={actionId}
-                        name={name}
-                        user={username}
-                        pass={password}
-                        address={address}
-                      />
                     </tr>
                   )
                 )}
@@ -288,6 +195,6 @@ export default function users({}) {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

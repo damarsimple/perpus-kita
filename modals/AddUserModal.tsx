@@ -1,7 +1,13 @@
 import { Dialog, Transition } from "@headlessui/react";
 import React, { Fragment } from "react";
 
-const AddUserModal = ({ isOpenAdd, closeAddModal, onAdd }) => {
+interface ModalProp {
+  isOpenAdd: boolean;
+  closeAddModal: Function;
+  onAdd: Function;
+}
+
+const AddUserModal = ({ isOpenAdd, closeAddModal, onAdd }: ModalProp) => {
   async function handleForm(e: any) {
     e.preventDefault();
     const name = e.target.name.value;
@@ -15,7 +21,11 @@ const AddUserModal = ({ isOpenAdd, closeAddModal, onAdd }) => {
 
   return (
     <Transition appear show={isOpenAdd} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={closeAddModal}>
+      <Dialog
+        as="div"
+        className="relative z-10"
+        onClose={() => closeAddModal()}
+      >
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -163,7 +173,7 @@ const AddUserModal = ({ isOpenAdd, closeAddModal, onAdd }) => {
                     <button
                       type="button"
                       className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                      onClick={closeAddModal}
+                      onClick={() => closeAddModal()}
                     >
                       Cancel
                     </button>
