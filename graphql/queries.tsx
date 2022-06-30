@@ -73,3 +73,36 @@ export const FIND_USER = gql`
 //     }
 //   }
 // `;
+
+export const GET_BOOKS = gql`
+  query Query($take: Int) {
+    findManyBook(take: $take) {
+      id
+      title
+      cover
+      author {
+        name
+      }
+    }
+  }
+`;
+
+export const GET_AUTHORS = gql`
+  query FindManyAuthor($take: Int) {
+    findManyAuthor(take: $take) {
+      id
+      name
+      _count {
+        books
+      }
+    }
+  }
+`;
+
+export const LOGIN = gql`
+  mutation Login($username: String!, $password: String!) {
+    login(email: $username, password: $password) {
+      id
+    }
+  }
+`;

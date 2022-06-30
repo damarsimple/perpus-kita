@@ -57,7 +57,7 @@ const DeleteUserModal = ({
                   </p>
                 </div>
 
-                <form onSubmit={() => onDel()} className="mt-4">
+                <form onSubmit={() => onDel(actionId)} className="mt-4">
                   <button
                     type="submit"
                     className="inline-flex justify-center rounded-md border border-transparent bg-red-400 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-red-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"

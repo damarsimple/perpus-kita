@@ -1,11 +1,42 @@
+import { useQuery } from "@apollo/client";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
+import Image from "next/image";
 import Button from "../components/Button";
 import CardBook from "../components/CardBook";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
+import { Book } from "../generated";
+import { GET_BOOKS } from "../graphql/queries";
+import BorrowModal from "../modals/BorrowModal";
 
 export default function Find() {
+  const {
+    loading,
+    error,
+    data: dataBook,
+  } = useQuery<{ findManyBook: Book[] }>(GET_BOOKS, {
+    variables: {
+      take: 10,
+    },
+  });
+
+  let [isOpenBor, setIsOpenBor] = useState(false);
+  let [idBook, setIdBook] = useState(Number);
+  let [titleBook, setTitleBook] = useState(String);
+
+  function closeBorModal() {
+    setIsOpenBor(false);
+  }
+
+  function openBorModal(idNow: number, titleNow: string) {
+    setIdBook(idNow);
+    setTitleBook(titleNow);
+    setIsOpenBor(true);
+  }
+
+  function onBor() {}
+
   return (
     <div>
       <Navbar></Navbar>
@@ -31,53 +62,56 @@ export default function Find() {
         </section>
         <section className="mt-10">
           <div className="grid grid-rows-1 grid-cols-4 gap-0">
-            {[
-              {
-                name: "Hooked",
-                image: "/bookHooked.jpg",
-                deskripsi: "Buku Oke.",
-                author: "Jenal",
-              },
-              {
-                name: "The Power of Habit",
-                image: "/bookHooked.jpg",
-                deskripsi: "Buku Bagus.",
-                author: "Jenal",
-              },
-              {
-                name: "Atomic Habit",
-                image: "/bookHooked.jpg",
-                deskripsi: "Buku Keren.",
-                author: "Jenal",
-              },
-              {
-                name: "Hooked",
-                image: "/bookHooked.jpg",
-                deskripsi: "Buku Oke.",
-                author: "Jenal",
-              },
-              {
-                name: "The Power of Habit",
-                image: "/bookHooked.jpg",
-                deskripsi: "Buku Bagus.",
-                author: "Jenal",
-              },
-              {
-                name: "Atomic Habit",
-                image: "/bookHooked.jpg",
-                deskripsi: "Buku Keren.",
-                author: "Jenal",
-              },
-            ].map((e) => (
-              <div className="mb-10" key={e.name}>
+            {dataBook?.findManyBook.map(({ id, title, cover, author }) => (
+              <div className="mb-10" key={id}>
                 <CardBook
-                  image={e.image}
-                  deskripsi={e.deskripsi}
-                  author={e.author}
+                  id={id}
+                  auth={author.name}
+                  title={title}
+                  image={cover || ""}
                 >
-                  {e.name}
+                  {title}
                 </CardBook>
               </div>
+              // </div>
+              // <div className="flex justify-center my-3 mx-3">
+              //   <div className="rounded-lg drop-shadow-xl bg-white" key={id}>
+              //     <div>
+              //       <Image
+              //         src={cover || " "}
+              //         height={400}
+              //         width={300}
+              //         className="w-full h-96 rounded-lg"
+              //       />
+              //     </div>
+              //     <div className="p-6">
+              //       <p className="text-gray-500 font-medium mb-1">
+              //         {author.name}
+              //       </p>
+              //       <h5 className="text-gray-900 text-xl font-semibold mb-3">
+              //         {title}
+              //       </h5>
+              //       {/* <p className="text-gray-400 font-normal  mb-4">{deskripsi}</p> */}
+              //       <button
+              //         style={{
+              //           paddingLeft: 20,
+              //           paddingRight: 20,
+              //         }}
+              //         className="cursor-pointer text-lg font-medium hover:bg-green-600 py-1 px-4 bg-green-400 shadow-md text-white rounded-full"
+              //         onClick={() => openBorModal(id, title)}
+              //       >
+              //         Borrow
+              //       </button>
+              //       <BorrowModal
+              //         isOpenBor={isOpenBor}
+              //         closeBorModal={closeBorModal}
+              //         title={titleBook}
+              //         bookId={idBook}
+              //         onBor={onBor}
+              //       />
+              //     </div>
+              //   </div>
+              // </div>
             ))}
           </div>
         </section>

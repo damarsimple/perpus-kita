@@ -33,6 +33,10 @@ export default function users({}) {
   let [isOpenEdit, setIsOpenEdit] = useState(false);
   let [isOpenAdd, setIsOpenAdd] = useState(false);
   const [actionId, setActionId] = useState(Number);
+  const [nama, setNama] = useState(String);
+  const [user, setUser] = useState(String);
+  const [pass, setPass] = useState(String);
+  const [add, setAdd] = useState(String);
 
   //ADD USER
   const [createOneUser] = useMutation(ADD_USER, {
@@ -83,9 +87,9 @@ export default function users({}) {
     },
   });
 
-  const onDel = (e: any) => {
-    e.preventDefault();
-    deleteOneUser({ variables: { where: { id: actionId } } });
+  const onDel = (target: number) => {
+    // e.preventDefault();
+    deleteOneUser({ variables: { where: { id: target } } });
   };
 
   function closeDelModal() {
@@ -106,8 +110,18 @@ export default function users({}) {
     setActionId(0);
     setIsOpenEdit(false);
   }
-  function openEditModal(id: number) {
+  function openEditModal(
+    id: number,
+    nama: string,
+    user: string,
+    pass: string,
+    add: string
+  ) {
     setActionId(id);
+    setNama(nama);
+    setUser(user);
+    setPass(pass);
+    setAdd(add);
     // if (id > 0) {
     setIsOpenEdit(true);
     // }
@@ -129,15 +143,20 @@ export default function users({}) {
     passEdit: string,
     addressEdit: string,
     idEdit: number
+    // e
   ) => {
     // e.preventDefault();
     updateOneUser({
       variables: {
         data: {
-          name: nameEdit,
-          username: usernameEdit,
-          password: passEdit,
-          address: addressEdit,
+          name: {
+            set: nameEdit,
+          },
+          username: { set: usernameEdit },
+          password: {
+            set: passEdit,
+          },
+          address: { set: addressEdit },
         },
         where: {
           id: idEdit,
@@ -168,9 +187,6 @@ export default function users({}) {
         <div className="px-16 py-4 text-white dark:bg-gray-700 h-screen w-screen">
           <div className="mt-10 mb-5 flex justify-between">
             <h1 className="font-semibold text-2xl">Users Data</h1>
-            {/* <Button px={40} action={"openAddModal"}>
-              Add User
-            </Button> */}
             <button
               type="button"
               className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
@@ -250,7 +266,9 @@ export default function users({}) {
                       <td className="py-4 px-4" key={id}>
                         <button
                           className=" mr-5 font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                          onClick={() => openEditModal(id)}
+                          onClick={() =>
+                            openEditModal(id, name, username, password, address)
+                          }
                         >
                           Edit
                         </button>

@@ -1,12 +1,15 @@
 import Link from "next/link";
+import { type } from "os";
 import React from "react";
 
 type ButtonType = "outlined" | "filled";
+type SubmitType = "submit" | "button" | "reset";
 // let used = "bg-red-600 bg-green-600";
 interface ButtonProp {
   children: string;
   color?: string;
-  type?: ButtonType;
+  bType?: ButtonType;
+  submit?: SubmitType;
   link?: string;
   px?: number;
   action?: string;
@@ -15,12 +18,13 @@ export default function Button({
   children,
   color = "green",
   px = 4,
-  type,
+  bType,
   link = "#",
+  submit,
   action,
 }: ButtonProp) {
   let className;
-  switch (type) {
+  switch (bType) {
     case "outlined":
       className = `cursor-pointer text-lg font-medium py-1 px-4 rounded-full border-2 border-green-500 shadow-md text-black/70 hover:border-green-700 hover:text-black/90`;
       break;
@@ -36,6 +40,7 @@ export default function Button({
           paddingLeft: px,
           paddingRight: px,
         }}
+        type={submit}
         className={className}
         onClick={() => {
           action;

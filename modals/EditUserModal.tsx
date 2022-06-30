@@ -84,16 +84,12 @@ const EditUserModal = ({
                   as="h3"
                   className="text-lg font-medium leading-6 text-gray-900"
                 >
-                  Form Edit User Data
+                  Form Edit User
                 </Dialog.Title>
                 <div className="mt-2">
-                  <p className="text-sm text-gray-500">
-                    Currently showing edit form for user with id {actionId}
-                  </p>
+                  <p className="text-sm text-gray-500">Input New User Data</p>
                 </div>
-                {/* {isOpenEdit == true
-                  ? userData?.findUniqueUser.map(
-                      ({ name, username, password, address }) => ( */}
+
                 <form onSubmit={handleForm} className="mt-4">
                   <div className="mb-6">
                     <label
@@ -106,10 +102,7 @@ const EditUserModal = ({
                       type="text"
                       id="name"
                       name="name"
-                      // defaultValue={
-                      //   // userData != null ? userData?.findUniqueUser[0].name : ""
-                      //   name
-                      // }
+                      value={name}
                       className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                       placeholder="Full Name"
                       required
@@ -126,7 +119,7 @@ const EditUserModal = ({
                       type="text"
                       id="username"
                       name="user"
-                      // value={}
+                      value={user}
                       className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                       placeholder="Username"
                       required
@@ -143,7 +136,7 @@ const EditUserModal = ({
                       type="password"
                       id="password"
                       name="pass"
-                      // value={pass}
+                      value={pass}
                       className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                       required
                     />
@@ -159,13 +152,12 @@ const EditUserModal = ({
                       type="text"
                       id="address"
                       name="address"
-                      // value={address}
+                      value={address}
                       className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                       required
                       placeholder="Address"
                     />
                   </div>
-
                   <div className="ml-24">
                     <button
                       type="submit"
@@ -182,9 +174,6 @@ const EditUserModal = ({
                     </button>
                   </div>
                 </form>
-                {/* )
-                    )
-                  : ""} */}
               </Dialog.Panel>
             </Transition.Child>
           </div>

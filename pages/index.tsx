@@ -30,17 +30,6 @@ const Home: NextPage = () => {
       findManyBookCount
     }
   `;
-  // const FIRST_BOOKS = gql`
-  //   query FindFirstBook {
-  //     findFirstBook {
-  //       title
-  //     }
-  //   }
-  // `;
-
-  // const { data } = useQuery<{ findManyBook: Book[] }>(EXCHANGE_RATES, {
-  //   variables: { take: 1 },
-  // });
 
   const { data } = useQuery<{ findManyBook: Book[] }>(EXCHANGE_RATES);
 
@@ -62,27 +51,6 @@ const Home: NextPage = () => {
       </div>
     );
 
-  // if (error) return <p>Error</p>;
-
-  // async function getServerSideProps() {
-  //   const { data } = await client.useQuery<({
-  //      Query($take: Int) {
-  //           findManyBook(take: $take) {
-  //             title
-  //             author {
-  //               name
-  //             }
-  //             id
-  //           }
-  //         }
-  //   })>;
-
-  //   return {
-  //     props: {
-  //       countries: data.countries.slice(0, 4),
-  //     },
-  //   };
-  // }
   return (
     <div>
       <Navbar />
@@ -107,22 +75,13 @@ const Home: NextPage = () => {
               </Button>
             </Link>
             <Link href="#">
-              <Button type="outlined" px={20}>
+              <Button bType="outlined" px={20}>
                 About Us
               </Button>
             </Link>
           </div>
         </div>
       </section>
-      {/* <div>
-        {data?.findManyBook.map(({ id, title }) => (
-          <div key={id}>
-            <p>
-              {id}: {title}
-            </p>
-          </div>
-        ))}
-      </div> */}
       <section>
         <div className="flex justify-center w-full h-full">
           <Image height={900} width={1600} src="/groups.png" alt="People" />
@@ -203,7 +162,7 @@ const Home: NextPage = () => {
         </div>
       </section>
 
-      <section className="flex flex-col justify-center text-center my-24">
+      {/* <section className="flex flex-col justify-center text-center my-24">
         <h3 className="font-medium text-3xl">
           Login to <span className="text-green-600">Start</span>
         </h3>
@@ -224,6 +183,40 @@ const Home: NextPage = () => {
               <Button>{e.name}</Button>
             </div>
           ))}
+        </div>
+      </section> */}
+
+      <section className="flex justify-between text-center mt-10 content-center">
+        <div className="self-center text-left mx-auto">
+          <h3 className="font-medium text-3xl text-gray-700">
+            Why Should{" "}
+            <span className="text-green-500 font-semibold">PERPUS</span>kita?
+          </h3>
+          <p className="text-gray-500 mt-5">
+            PERPUSkita wherever you are with only $5 to borrow <br />
+            a book and $5 for shipping you can already get
+            <br />
+            the book of your dreams.
+          </p>
+        </div>
+        <div className="mx-auto">
+          <Image src="/join.svg" height={400} width={600} alt="" />
+        </div>
+      </section>
+      <section className="flex justify-between text-center mt-5">
+        <div className="mx-auto">
+          <Image src={"/why.svg"} height={400} width={600}></Image>
+        </div>
+        <div className="self-center mx-auto">
+          <h3 className="font-medium text-3xl text-gray-700">
+            Let's <span className="text-green-500 font-semibold">Join Us</span>
+          </h3>
+          <p className="text-gray-500 my-3">
+            Create an account and start exploring
+            <br />
+            PERPUSkita collection
+          </p>
+          <Button px={80}>Register Now</Button>
         </div>
       </section>
 

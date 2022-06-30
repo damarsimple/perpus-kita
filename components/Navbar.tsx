@@ -32,7 +32,7 @@ export default function Navbar() {
           ))}
         </div>
         <div className="flex ml-12">
-          <Button link="/login" px={20}>
+          <Button link="./dashboard/login" px={20}>
             Login
           </Button>
         </div>

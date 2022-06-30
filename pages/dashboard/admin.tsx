@@ -2,9 +2,15 @@ import { useMutation, useQuery } from "@apollo/client";
 import React, { useState } from "react";
 import Dashboard from "../../components/Dashboard";
 import { User } from "../../generated";
-import { ADD_USER, DEL_USER, GET_USERS } from "../../graphql/queries";
+import {
+  ADD_USER,
+  DEL_USER,
+  EDIT_USER,
+  GET_USERS,
+} from "../../graphql/queries";
 import AddUserModal from "../../modals/AddUserModal";
 import DeleteUserModal from "../../modals/DeleteUserModal";
+import EditUserModal from "../../modals/EditUserModal";
 
 export default function admin() {
   const {
@@ -25,6 +31,10 @@ export default function admin() {
   const [isOpenDel, setIsOpenDel] = useState(false);
   const [isOpenEdit, setIsOpenEdit] = useState(false);
   const [actionId, setActionId] = useState(Number);
+  const [nama, setNama] = useState(String);
+  const [user, setUser] = useState(String);
+  const [pass, setPass] = useState(String);
+  const [add, setAdd] = useState(String);
 
   //ADD USER
   const [createOneUser] = useMutation(ADD_USER, {
@@ -75,9 +85,9 @@ export default function admin() {
     },
   });
 
-  const onDel = (e: any) => {
-    e.preventDefault();
-    deleteOneUser({ variables: { where: { id: actionId } } });
+  const onDel = (id: number) => {
+    // e.preventDefault();
+    deleteOneUser({ variables: { where: { id: id } } });
   };
 
   function closeDelModal() {
@@ -86,6 +96,7 @@ export default function admin() {
 
   function openDelModal(id: number) {
     setActionId(id);
+
     console.log(actionId);
     setIsOpenDel(true);
   }
@@ -93,7 +104,64 @@ export default function admin() {
   //END DEL USER
 
   //EDIT USER
+  function closeEditModal() {
+    setActionId(0);
+    setIsOpenEdit(false);
+  }
+  function openEditModal(
+    id: number,
+    nama: string,
+    user: string,
+    pass: string,
+    add: string
+  ) {
+    setActionId(id);
+    setNama(nama);
+    setUser(user);
+    setPass(pass);
+    setAdd(add);
+    // if (id > 0) {
+    setIsOpenEdit(true);
+    // }
 
+    console.log(actionId);
+  }
+
+  const [updateOneUser] = useMutation(EDIT_USER, {
+    onCompleted: (dataUser) => {
+      setActionId(0);
+      setIsOpenEdit(false);
+      window.location.reload();
+    },
+  });
+
+  const onEdit = (
+    nameEdit: string,
+    usernameEdit: string,
+    passEdit: string,
+    addressEdit: string,
+    idEdit: number
+    // e
+  ) => {
+    // e.preventDefault();
+    updateOneUser({
+      variables: {
+        data: {
+          name: {
+            set: nameEdit,
+          },
+          username: { set: usernameEdit },
+          password: {
+            set: passEdit,
+          },
+          address: { set: addressEdit },
+        },
+        where: {
+          id: idEdit,
+        },
+      },
+    });
+  };
   //END EDIT USER
 
   return (
@@ -169,10 +237,22 @@ export default function admin() {
                       <td className="py-4 px-4" key={id}>
                         <button
                           className=" mr-5 font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                          // onClick={() => openEditModal(id)}
+                          onClick={() =>
+                            openEditModal(id, name, username, password, address)
+                          }
                         >
                           Edit
                         </button>
+                        <EditUserModal
+                          isOpenEdit={isOpenEdit}
+                          closeEditModal={closeEditModal}
+                          onEdit={onEdit}
+                          actionId={actionId}
+                          name={nama}
+                          user={user}
+                          pass={pass}
+                          address={add}
+                        ></EditUserModal>
                         {/* <DeleteUser isOpen={} onClose={} onSubmit={}/> */}
                         <button
                           className="font-medium text-red-600 dark:text-red-500 hover:underline"
