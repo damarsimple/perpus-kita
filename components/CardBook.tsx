@@ -3,6 +3,10 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Button from "./Button";
 import BorrowModal from "../modals/BorrowModal";
+import { useMutation } from "@apollo/client";
+import { BORROW, TRANSAKSI3 } from "../graphql/queries";
+import AddOn from "../modals/AddLoanModal";
+import AddLoanModal from "../modals/AddLoanModal";
 
 interface CardProp {
   title: string;
@@ -19,23 +23,66 @@ export default function CardBook({
   image,
   auth,
 }: CardProp) {
-  let [isOpenBor, setIsOpenBor] = useState(false);
-  let [idBook, setIdBook] = useState(id);
+  let [isOpen, setIsOpen] = useState(false);
+  let [isIdBook, setIdBook] = useState(id);
 
-  function closeBorModal() {
-    setIsOpenBor(false);
+  function closeModal() {
+    setIsOpen(false);
   }
 
-  function openBorModal() {
-    setIsOpenBor(true);
+  function openModal(target: number) {
+    setIdBook(target);
+    setIsOpen(true);
   }
 
-  function onBor() {}
+  const [createOneUserLoan] = useMutation(BORROW, {
+    onCompleted: () => {
+      closeModal();
+      // window.location.reload();
+    },
+  });
+
+  const [updateOneUser] = useMutation(TRANSAKSI3, {});
+  const onAdd = () => {
+    // e.preventDefault();
+    createOneUserLoan({
+      variables: {
+        data: {
+          user: {
+            connect: {
+              id: 1,
+            },
+          },
+          book: {
+            connect: {
+              id: isIdBook,
+            },
+          },
+          loanExpiredAt: "2022-7-8",
+          createdAt: "2022-7-1",
+          price: 10,
+          status: "APPROVED",
+        },
+      },
+    });
+
+    updateOneUser({
+      variables: {
+        data: {
+          balance: {
+            decrement: 10,
+          },
+        },
+        where: {
+          id: 1,
+        },
+      },
+    });
+  };
 
   return (
     <div className="flex justify-center">
       <div className="rounded-lg drop-shadow-xl bg-white">
-        {id}
         <div>
           <Image
             src={image}
@@ -54,17 +101,24 @@ export default function CardBook({
               paddingRight: 20,
             }}
             className="cursor-pointer text-lg font-medium hover:bg-green-600 py-1 px-4 bg-green-400 shadow-md text-white rounded-full"
-            onClick={() => openBorModal()}
+            onClick={() => openModal(id)}
           >
             Borrow
           </button>
-          <BorrowModal
-            isOpenBor={isOpenBor}
-            closeBorModal={closeBorModal}
+          <AddLoanModal
+            isOpen={isOpen}
+            closeModal={closeModal}
+            onAdd={onAdd}
+            idBook={id}
+            title={title}
+          ></AddLoanModal>
+          {/* <BorrowModal
+            isOpenBor={isOpen}
+            closeBorModal={closeModal}
             title={title}
             bookId={id}
-            onBor={onBor}
-          />
+            onBor={onAdd}
+          /> */}
         </div>
       </div>
     </div>

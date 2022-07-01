@@ -1,40 +1,24 @@
-import { useQuery } from "@apollo/client";
-import React from "react";
+//@ts-nocheck
+import { gql, useQuery } from "@apollo/client";
+import React, { ReactNode, useState } from "react";
 import Button from "../../components/Button";
 import { User } from "../../generated";
 import { GET_USERS, LOGIN } from "../../graphql/queries";
 
 export default function login() {
-  async function handleForm(e: any) {
-    e.preventDefault();
-    const emailUser = e.target.email.value;
-    const passUser = e.target.pass.value;
+  // async function handleForm(e: any) {
+  //   e.preventDefault();
+  //   const emailUser = e.target.email.value;
+  //   const passUser = e.target.pass.value;
 
-    // onLogin(email, pass);
+  //   // onLogin(email, pass);
 
-    const { data: dataLogin } = useQuery<{ findManyUser: User[] }>(LOGIN, {
-      variables: {
-        where: {
-          AND: [
-            {
-              email: {
-                equals: emailUser,
-              },
-              password: {
-                equals: passUser,
-              },
-            },
-          ],
-        },
-      },
-    });
-
-    if (dataLogin?.findManyUser && dataLogin?.findManyUser.length > 0) {
-      console.log("ada");
-    } else {
-      console.log("Tidak ada");
-    }
-  }
+  //   if (dataLogin?.findManyUser && dataLogin?.findManyUser.length > 0) {
+  //     console.log("ada");
+  //   } else {
+  //     console.log("Tidak ada");
+  //   }
+  // }
   // if (!dataLogin || !dataLogin.findManyUser) throw Error("Login Failed");
 
   // if (!dataLogin.findManyUser.id || !data.login.token) throw Error(data.login.message ?? "Login Failed");
@@ -51,15 +35,15 @@ export default function login() {
 
   // }
 
-  const { data: dataLogin } = useQuery<{ findManyUser: User[] }>(LOGIN, {
-    onCompleted: () => {
-      if (dataLogin?.findManyUser && dataLogin?.findManyUser.length > 0) {
-        console.log("ada");
-      } else {
-        console.log("Tidak ada");
-      }
-    },
-  });
+  // const { data: dataLogin } = useQuery<{ findManyUser: User[] }>(LOGIN, {
+  //   onCompleted: () => {
+  //     if (dataLogin?.findManyUser && dataLogin?.findManyUser.length > 0) {
+  //       console.log("ada");
+  //     } else {
+  //       console.log("Tidak ada");
+  //     }
+  //   },
+  // });
 
   // const onLogin = (emailUser: string, passUser: string) => {
   //   dataLogin?({
@@ -103,6 +87,45 @@ export default function login() {
   //   document.cookie = "token={id};path=/";
   // },
   //   });
+  const [failedMessage, setFailedMessage] = useState("");
+
+  const { setUser } = useUserStore();
+  const { push } = useRouter();
+  const handleForm = () => {
+    interface AuthPayload {
+      token?: string;
+      message?: string;
+      success: boolean;
+      user?: User;
+    }
+
+    const emailUser = e.target.email.value;
+    const passUser = e.target.pass.value;
+
+  //   client
+  //     .mutate<{ login: AuthPayload }>({
+  //       mutation: gql`mutation Register($email: String!, $password: String!) {
+  //         login(email: $email, password: $password) {
+  //           token
+  //           status
+  //           message
+  //           user {
+  //             id
+  //           }
+  //         }
+  //       }`,
+  //       variables: {
+  //         email: emailUser,
+  //         password:passUser,
+  //     }).then((e) => {
+  //       if (e.data?.login.success) {
+  //         setUser(e?.data.login?.user ?? null);
+  //         push("/dashboard");
+  //       } else {
+  //         setFailedMessage(e?.data?.login?.message ?? "");
+  //       }
+  //     });
+  // };
 
   return (
     <div className="flex justify-center text-center my-auto items-center ">
@@ -117,7 +140,7 @@ export default function login() {
           <p className="text-gray-500 mb-10">
             Please enter your account username and password.
           </p>
-          <form onSubmit={handleForm}>
+          <form>
             <p className="mb-3">Email</p>
             <input
               type="text"

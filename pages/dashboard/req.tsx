@@ -1,54 +1,39 @@
 import { useQuery } from "@apollo/client";
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
 import Dashboard from "../../components/Dashboard";
-import { Book } from "../../generated";
-import { GET_BOOKS } from "../../graphql/queries";
-import AddBookModal from "../../modals/AddBookModal";
+import { UserLoan } from "../../generated";
+import { GET_BOOKS, GET_LOANS } from "../../graphql/queries";
 
-export default function book() {
+export default function req() {
   const {
     loading,
     error,
-    data: dataBook,
-  } = useQuery<{ findManyBook: Book[] }>(GET_BOOKS, {
+    data: dataLoan,
+  } = useQuery<{ findManyUserLoan: UserLoan[] }>(GET_LOANS, {
     variables: {
-      take: 5,
+      where: {
+        status: {
+          equals: "PENDING",
+        },
+      },
     },
   });
-
-  let [isOpen, setIsOpen] = useState(false);
-
-  function closeModal() {
-    setIsOpen(false);
-  }
-
-  function openModal() {
-    setIsOpen(true);
-  }
-
-  function onAdd() {}
-
   return (
     <div>
       <div className="flex flex-row h-full">
         <Dashboard />
         <div className="px-16 py-4 text-white dark:bg-gray-700 h-screen w-screen overflow-auto">
           <div className="mt-10 mb-5 flex justify-between">
-            <h1 className="font-semibold text-2xl">Books Data</h1>
-            <button
+            <h1 className="font-semibold text-2xl">Loans Request</h1>
+            {/* <button
               type="button"
               className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-              onClick={openModal}
+              //   onClick={openAddModal}
             >
               Add Book
-            </button>
+            </button> */}
           </div>
-          <AddBookModal
-            isOpen={isOpen}
-            closeModal={closeModal}
-            onAdd={onAdd}
-          ></AddBookModal>
 
           <div className="mb-5">
             <p className="text-center text-gray-400">
@@ -64,28 +49,31 @@ export default function book() {
               <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-white dark:text-gray-800">
                 <tr>
                   <th scope="" className="px-6 py-3">
-                    ID Book
+                    ID Loan
+                  </th>
+                  <th scope="" className="px-6 py-3">
+                    User ID
+                  </th>
+                  <th scope="" className="px-6 py-3">
+                    Name
+                  </th>
+                  <th scope="" className="px-6 py-3">
+                    Book ID
                   </th>
                   <th scope="" className="px-6 py-3">
                     Title
                   </th>
                   <th scope="" className="px-6 py-3">
-                    Cover
+                    STATUS
                   </th>
                   <th scope="" className="px-6 py-3">
-                    Category
-                  </th>
-                  <th scope="" className="px-6 py-3">
-                    Author
-                  </th>
-                  <th scope="" className="px-6 py-3">
-                    Action
+                    ACTION
                   </th>
                 </tr>
               </thead>
               <tbody>
-                {dataBook?.findManyBook.map(
-                  ({ id, title, cover, author, categories }) => (
+                {dataLoan?.findManyUserLoan.map(
+                  ({ id, user, book, status, price }) => (
                     <tr
                       key={id}
                       className="border-b dark:bg-gray-800 dark:border-gray-700 odd:bg-white even:bg-gray-50 odd:dark:bg-gray-800 even:dark:bg-gray-700"
@@ -96,33 +84,18 @@ export default function book() {
                       >
                         {id}
                       </td>
-                      <td className="py-4 px-4">{title}</td>
-                      {/* <td className="py-4 px-4">{title}</td> */}
+                      <td className="py-4 px-4">{user.id}</td>
+                      <td className="py-4 px-4">{user.name}</td>
+                      <td className="py-4 px-4">{book.id}</td>
+                      <td className="py-4 px-4">{book.title}</td>
                       <td className="py-4 px-4">
-                        {/* <td className="py-4 px-4"> */}
-                        {/* <IMAGE SRC="{cover}" /> */}
-                        <div>
-                          <Image
-                            src={cover || ""}
-                            width={140}
-                            height={140}
-                            alt={cover || ""}
-                          ></Image>
-                        </div>
+                        <p className="px-1 py-1  bg-green-400 rounded-lg text-center text-white">
+                          {status}
+                        </p>
                       </td>
-                      {categories.map((e) => (
-                        <td className="py-4 px-4">{e.name}</td>
-                      ))}
-
-                      <td className="py-4 px-4">{author.name}</td>
                       <td className="py-4 px-4" key={id}>
                         <button className=" mr-5 font-medium text-blue-600 dark:text-blue-500 hover:underline">
-                          Edit
-                        </button>
-
-                        {/* <DeleteUser isOpen={} onClose={} onSubmit={}/> */}
-                        <button className="font-medium text-red-600 dark:text-red-500 hover:underline">
-                          Delete
+                          Action
                         </button>
                       </td>
                     </tr>

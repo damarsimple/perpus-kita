@@ -79,15 +79,15 @@ export default function admin() {
   //DEL USER
   const [deleteOneUser] = useMutation(DEL_USER, {
     onCompleted: (dataUser) => {
-      setActionId(0);
+      // setActionId(0);
       closeDelModal();
       // window.location.reload();
     },
   });
 
-  const onDel = (id: number) => {
+  const onDel = () => {
     // e.preventDefault();
-    deleteOneUser({ variables: { where: { id: id } } });
+    deleteOneUser({ variables: { where: { id: actionId } } });
   };
 
   function closeDelModal() {

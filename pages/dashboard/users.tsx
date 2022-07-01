@@ -33,10 +33,10 @@ export default function users({}) {
   let [isOpenEdit, setIsOpenEdit] = useState(false);
   let [isOpenAdd, setIsOpenAdd] = useState(false);
   const [actionId, setActionId] = useState(Number);
-  const [nama, setNama] = useState(String);
-  const [user, setUser] = useState(String);
-  const [pass, setPass] = useState(String);
-  const [add, setAdd] = useState(String);
+  const [isName, setNama] = useState(String);
+  const [isUser, setUser] = useState(String);
+  const [isPass, setPass] = useState(String);
+  const [isAdd, setAdd] = useState(String);
 
   //ADD USER
   const [createOneUser] = useMutation(ADD_USER, {
@@ -293,10 +293,10 @@ export default function users({}) {
                         closeEditModal={closeEditModal}
                         onEdit={onEdit}
                         actionId={actionId}
-                        name={name}
-                        user={username}
-                        pass={password}
-                        address={address}
+                        name={isName}
+                        user={isUser}
+                        pass={isPass}
+                        address={isAdd}
                       />
                     </tr>
                   )

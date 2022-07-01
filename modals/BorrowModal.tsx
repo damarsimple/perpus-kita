@@ -1,5 +1,7 @@
+import { useMutation } from "@apollo/client";
 import { Dialog, Transition } from "@headlessui/react";
 import React, { Fragment } from "react";
+import { BORROW } from "../graphql/queries";
 
 interface ModalProp {
   isOpenBor: boolean;
@@ -16,6 +18,38 @@ export default function ({
   title,
   onBor,
 }: ModalProp) {
+  // const [createOneUserLoan] = useMutation(BORROW, {
+  //   onCompleted: (e) => {
+  //     // closeBorModal();
+  //     e.preventDefault();
+  //     // window.location.reload();
+  //   },
+  // });
+
+  // const onBorr = (idBook: number) => {
+  //   e.preventDefault();
+  //   createOneUserLoan({
+  //     variables: {
+  //       data: {
+  //         user: {
+  //           connect: {
+  //             id: 1,
+  //           },
+  //         },
+  //         book: {
+  //           connect: {
+  //             id: idBook,
+  //           },
+  //         },
+  //         loanExpiredAt: "2022-7-8",
+  //         createdAt: "2022-7-1",
+  //         price: 10,
+  //         status: "APPROVED",
+  //       },
+  //     },
+  //   });
+  // };
+
   return (
     <div>
       <Transition appear show={isOpenBor} as={Fragment}>

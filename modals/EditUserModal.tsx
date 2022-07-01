@@ -102,7 +102,7 @@ const EditUserModal = ({
                       type="text"
                       id="name"
                       name="name"
-                      value={name}
+                      defaultValue={name}
                       className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                       placeholder="Full Name"
                       required
@@ -119,7 +119,7 @@ const EditUserModal = ({
                       type="text"
                       id="username"
                       name="user"
-                      value={user}
+                      defaultValue={user}
                       className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                       placeholder="Username"
                       required
@@ -136,7 +136,7 @@ const EditUserModal = ({
                       type="password"
                       id="password"
                       name="pass"
-                      value={pass}
+                      defaultValue={pass}
                       className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                       required
                     />
@@ -152,7 +152,7 @@ const EditUserModal = ({
                       type="text"
                       id="address"
                       name="address"
-                      value={address}
+                      defaultValue={address}
                       className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                       required
                       placeholder="Address"

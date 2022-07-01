@@ -88,62 +88,62 @@ export interface BatchPayload {
 }
 
 export enum UserScalarFieldEnum {
-  Id = 'id',
-  Email = 'email',
-  Name = 'name',
-  Username = 'username',
-  Password = 'password',
-  Address = 'address',
-  Isadmin = 'isAdmin',
-  Createdat = 'createdAt',
-  Updatedat = 'updatedAt',
-  Balance = 'balance',
+  Id = "id",
+  Email = "email",
+  Name = "name",
+  Username = "username",
+  Password = "password",
+  Address = "address",
+  Isadmin = "isAdmin",
+  Createdat = "createdAt",
+  Updatedat = "updatedAt",
+  Balance = "balance",
 }
 export enum TransactionScalarFieldEnum {
-  Id = 'id',
-  Amount = 'amount',
-  Type = 'type',
-  Createdat = 'createdAt',
-  Updatedat = 'updatedAt',
-  Userid = 'userId',
+  Id = "id",
+  Amount = "amount",
+  Type = "type",
+  Createdat = "createdAt",
+  Updatedat = "updatedAt",
+  Userid = "userId",
 }
 export enum UserLoanScalarFieldEnum {
-  Id = 'id',
-  Userid = 'userId',
-  Bookid = 'bookId',
-  Loanexpiredat = 'loanExpiredAt',
-  Createdat = 'createdAt',
-  Updatedat = 'updatedAt',
-  Price = 'price',
-  Status = 'status',
+  Id = "id",
+  Userid = "userId",
+  Bookid = "bookId",
+  Loanexpiredat = "loanExpiredAt",
+  Createdat = "createdAt",
+  Updatedat = "updatedAt",
+  Price = "price",
+  Status = "status",
 }
 export enum BookScalarFieldEnum {
-  Id = 'id',
-  Title = 'title',
-  Cover = 'cover',
-  Authorid = 'authorId',
-  Createdat = 'createdAt',
-  Updatedat = 'updatedAt',
+  Id = "id",
+  Title = "title",
+  Cover = "cover",
+  Authorid = "authorId",
+  Createdat = "createdAt",
+  Updatedat = "updatedAt",
 }
 export enum CategoryScalarFieldEnum {
-  Id = 'id',
-  Name = 'name',
+  Id = "id",
+  Name = "name",
 }
 export enum AuthorScalarFieldEnum {
-  Id = 'id',
-  Name = 'name',
-  Createdat = 'createdAt',
-  Updatedat = 'updatedAt',
+  Id = "id",
+  Name = "name",
+  Createdat = "createdAt",
+  Updatedat = "updatedAt",
 }
 export enum SortOrder {
-  Asc = 'asc',
-  Desc = 'desc',
+  Asc = "asc",
+  Desc = "desc",
 }
 export enum LoanStatus {
-  Pending = 'PENDING',
-  Approved = 'APPROVED',
-  Rejected = 'REJECTED',
-  Returned = 'RETURNED',
+  Pending = "PENDING",
+  Approved = "APPROVED",
+  Rejected = "REJECTED",
+  Returned = "RETURNED",
 }
 export interface UserWhereInput {
   AND?: UserWhereInput[];

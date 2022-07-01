@@ -2,7 +2,7 @@ import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 
-const client = new ApolloClient({
+export const client = new ApolloClient({
   uri: "https://perpus.test-troya.my.id/graphql",
 
   cache: new InMemoryCache(),

@@ -1,4 +1,4 @@
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import Link from "next/link";
 import React, { useState } from "react";
 import Image from "next/image";
@@ -7,7 +7,7 @@ import CardBook from "../components/CardBook";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { Book } from "../generated";
-import { GET_BOOKS } from "../graphql/queries";
+import { BORROW, GET_BOOKS } from "../graphql/queries";
 import BorrowModal from "../modals/BorrowModal";
 
 export default function Find() {
@@ -35,7 +35,37 @@ export default function Find() {
     setIsOpenBor(true);
   }
 
-  function onBor() {}
+  const [createOneUserLoan] = useMutation(BORROW, {
+    onCompleted: (e) => {
+      // closeBorModal();
+      e.preventDefault();
+      // window.location.reload();
+    },
+  });
+
+  const onBor = (idBook: number, e: any) => {
+    e.preventDefault();
+    createOneUserLoan({
+      variables: {
+        data: {
+          user: {
+            connect: {
+              id: 1,
+            },
+          },
+          book: {
+            connect: {
+              id: idBook,
+            },
+          },
+          loanExpiredAt: "2022-7-8",
+          createdAt: "2022-7-1",
+          price: 10,
+          status: "APPROVED",
+        },
+      },
+    });
+  };
 
   return (
     <div>
