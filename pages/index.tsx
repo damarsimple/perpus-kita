@@ -1,112 +1,116 @@
+import { gql, useQuery } from "@apollo/client";
 import type { NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { title } from "process";
+import Button from "../components/Button";
+import Footer from "../components/Footer";
+import Navbar from "../components/Navbar";
+import { Book, findManyBookCountArgs } from "../generated";
 import styles from "../styles/Home.module.css";
 
 const Home: NextPage = () => {
   const { pathname, push } = useRouter();
 
+  const EXCHANGE_RATES = gql`
+    query Query($take: Int) {
+      findManyBook(take: $take) {
+        title
+        author {
+          name
+        }
+        id
+      }
+    }
+  `;
+
+  const BOOK_COUNT = gql`
+    query FindManyBook {
+      findManyBookCount
+    }
+  `;
+
+  const { data } = useQuery<{ findManyBook: Book[] }>(EXCHANGE_RATES);
+
+  type count = number;
+
+  const {
+    loading,
+    error,
+    data: BookCount,
+  } = useQuery<{ findManyBookCount: count }>(BOOK_COUNT);
+
+  if (loading)
+    return (
+      <div className=" h-screen text-center  align-middle">
+        <p className="text-3xl font-semibold text-green-400">
+          PERPUS<span className="text-gray-600 text-xl">kita</span>
+        </p>
+        <p className="text-gray-400 text-xl">Loading...</p>
+      </div>
+    );
+
   return (
     <div>
-      <nav className="flex gap-3 px-10 py-4">
-        <h1 className="font-semibold text-2xl">
-          <span className="text-green-400 font-extrabold ">PERPUS</span>
-          <span className="text-gray-700">kita</span>
-        </h1>
+      <Navbar />
+      <section>
+        <div className="text-center flex flex-col gap-3 justify-center mt-11">
+          <h3 className="font-bold text-6xl text-gray-700 leading-10">
+            Let&apos;s Increase Your
+            <span className="text-green-400"> Knowledge</span>
+            <br />
+            <span className="text-4xl ">Wherever You Are</span>
+          </h3>
 
-        <div className="flex w-full justify-between">
-          <div className="flex gap-3">
-            {[
-              { name: "Home", route: "/" },
-              { name: "Find Your Book", route: "/find" },
-              { name: "About Us", route: "/about" },
-            ].map((e) => (
-              <Link key={e.name} href={e.route}>
-                <a
-                  className={
-                    "mx-2 text-lg font-medium " +
-                    (pathname == e.route ? "text-green-400" : "")
-                  }
-                >
-                  {e.name}
-                </a>
-              </Link>
-            ))}
-          </div>
-          <div className="flex gap-3">
-            <Link href="/login">
-              <a
-                className={
-                  "mx-2 cursor-pointer text-lg font-medium hover:bg-green-600 py-2 px-6 bg-green-400 text-white rounded-full"
-                }
-              >
-                Login
-              </a>
+          <p className="text-gray-400">
+            Find your favorite book wherever you are and we will send your
+            favorite book.
+          </p>
+
+          <div className="flex gap-3 justify-center">
+            <Link href="#">
+              <Button color="red" px={20}>
+                Get Started
+              </Button>
+            </Link>
+            <Link href="#">
+              <Button bType="outlined" px={20}>
+                About Us
+              </Button>
             </Link>
           </div>
         </div>
-      </nav>
-
-      <section>
-        <div className="text-center flex flex-col gap-3 justify-center p-10">
-          <h3 className="font-bold text-6xl">
-            Let&apos;s Increase Your <br />
-            <span className="text-green-400">Knowledge</span>
-          </h3>
-
-          <small className="text-gray-300">
-            Find Your Favorite Book and Start Increase Your Knowledge
-          </small>
-
-          <div className="flex gap-3 justify-center">
-            <button
-              className={
-                "mx-2 cursor-pointer text-lg font-medium hover:bg-green-600 py-2 px-6 bg-green-400 text-white rounded-full"
-              }
-            >
-              Get Started
-            </button>
-            <button
-              className={
-                "mx-2 cursor-pointer text-lg font-medium py-2 px-6 rounded-full border-2 border-green-400 text-green-600 "
-              }
-            >
-              About Us
-            </button>
-          </div>
-        </div>
       </section>
-
       <section>
         <div className="flex justify-center w-full h-full">
           <Image height={900} width={1600} src="/groups.png" alt="People" />
         </div>
       </section>
-      
 
       <section className="flex flex-col justify-center text-center">
-        <h3 className="font-medium text-2xl">
-          Why Chose <span className="text-green-600">PerpusKita</span>
+        <h3 className="font-medium text-3xl text-gray-700">
+          Featured from{" "}
+          <span className="text-green-500 font-semibold">PERPUS</span>Kita
         </h3>
 
-        <div className="flex gap-10 lg:gap-24 justify-center mt-10">
+        <div className="flex gap-3 lg:gap-9 justify-center mt-10">
           {[
             {
               name: "Book",
               image: "/books.png",
               contentTop: (
-                <div className="text-white font-medium">
-                  More than <br /> 5000{" "}
+                <div className="text-white text-xl font-medium">
+                  More than <br /> {BookCount?.findManyBookCount}{" "}
                   <span className=" font-bold text-yellow-300">
                     Book Collection
                   </span>
                 </div>
               ),
               contentBottom: (
-                <div className="opacity-70 font-thin text-white">
+                <div className="opacity-80 font-normal text-white">
                   We are here with a total of
-                  <br /> 5,285 book collections.
+                  <br /> {BookCount?.findManyBookCount} book collections.
                 </div>
               ),
               bg: "bg-blue-400",
@@ -115,24 +119,24 @@ const Home: NextPage = () => {
               name: "World",
               image: "/worlds.png",
               contentTop: (
-                <div className="text-white font-medium">
+                <div className="text-white text-xl font-medium">
                   More than <br /> 500{" "}
-                  <span className=" font-bold text-gray-800">Branches</span>
+                  <span className=" font-bold text-green-400">Branches</span>
                 </div>
               ),
               contentBottom: (
-                <div className="opacity-80 font-thin text-white">
+                <div className="opacity-80 font-normal text-white">
                   We are present with a total <br /> of 565 branches and spread
                   <br /> across 525 cities in Indonesia.
                 </div>
               ),
-              bg: "bg-yellow-400",
+              bg: "bg-yellow-300",
             },
             {
               name: "Book",
               image: "/books.png",
               contentTop: (
-                <div className="text-white font-medium">
+                <div className="text-white text-xl font-medium">
                   More than <br /> 1,500{" "}
                   <span className=" font-bold text-yellow-300">
                     Certified Librarians
@@ -140,7 +144,7 @@ const Home: NextPage = () => {
                 </div>
               ),
               contentBottom: (
-                <div className="opacity-70 font-thin text-white">
+                <div className="opacity-80 font-normal text-white">
                   We have 1620 librarians <br /> and all of them are certified
                 </div>
               ),
@@ -158,17 +162,17 @@ const Home: NextPage = () => {
         </div>
       </section>
 
-      <section className="flex flex-col justify-center text-center my-24">
-        <h3 className="font-medium text-2xl">
+      {/* <section className="flex flex-col justify-center text-center my-24">
+        <h3 className="font-medium text-3xl">
           Login to <span className="text-green-600">Start</span>
         </h3>
 
-        <small className="text-gray-300">
+        <small className="text-gray-400">
           Login to your account and start <br />
           to find your favorite book
         </small>
 
-        <div className="flex gap-10 lg:gap-24 justify-center gap-3 my-4">
+        <div className="flex gap-10 lg:gap-24 justify-center my-4 ">
           {[
             { name: "Login Student", route: "/login", image: "/siswa.png" },
             { name: "Login Admin", route: "/login", image: "/admin.png" },
@@ -176,21 +180,48 @@ const Home: NextPage = () => {
             <div key={e.name} className="flex gap-3 flex-col">
               <Image src={e.image} height={430} width={280} />
 
-              <button
-                onClick={() => push(e.route)}
-                className={
-                  "mx-2 cursor-pointer text-lg font-medium hover:bg-green-600 py-2 px-6 bg-green-400 text-white rounded-full"
-                }
-              >
-                {e.name}
-              </button>
+              <Button>{e.name}</Button>
             </div>
           ))}
         </div>
+      </section> */}
+
+      <section className="flex justify-between text-center mt-10 content-center">
+        <div className="self-center text-left mx-auto">
+          <h3 className="font-medium text-3xl text-gray-700">
+            Why Should{" "}
+            <span className="text-green-500 font-semibold">PERPUS</span>kita?
+          </h3>
+          <p className="text-gray-500 mt-5">
+            PERPUSkita wherever you are with only $5 to borrow <br />
+            a book and $5 for shipping you can already get
+            <br />
+            the book of your dreams.
+          </p>
+        </div>
+        <div className="mx-auto">
+          <Image src="/join.svg" height={400} width={600} alt="" />
+        </div>
+      </section>
+      <section className="flex justify-between text-center mt-5">
+        <div className="mx-auto">
+          <Image src={"/why.svg"} height={400} width={600}></Image>
+        </div>
+        <div className="self-center mx-auto">
+          <h3 className="font-medium text-3xl text-gray-700">
+            Let's <span className="text-green-500 font-semibold">Join Us</span>
+          </h3>
+          <p className="text-gray-500 my-3">
+            Create an account and start exploring
+            <br />
+            PERPUSkita collection
+          </p>
+          <Button px={80}>Register Now</Button>
+        </div>
       </section>
 
-      <section className="p-3 text-center bg-green-400 text-white my-24">
-        Made with Love By Part of <span title="Damar dan Zainal">Kelompok 1</span> with  💕😘
+      <section>
+        <Footer />
       </section>
     </div>
   );
