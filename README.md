@@ -37,5 +37,9 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 - Damar was here 3
 - junna masuk
 - ijin join bang
+
+- ini ima
+
 - misi numpang lewat
+
 
