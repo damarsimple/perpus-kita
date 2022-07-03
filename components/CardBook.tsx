@@ -90,7 +90,7 @@ export default function CardBook({
           },
         },
         where: {
-          id: 1,
+          id: user?.id ?? 0,
         },
       },
     });
@@ -105,19 +105,30 @@ export default function CardBook({
   };
 
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center shadow rounded"  style={{
+      position: "relative",
+      overflow: "hidden",
+      height: "550px",
+      width: "300px",
+    }}>
       <SuccesModal
         isOpen={isSuccess}
         closeModal={closeSuccesModal}
       ></SuccesModal>
       <div className="rounded-lg drop-shadow-xl bg-white">
-        <div>
+        <div
+          style={{
+            position: "relative",
+            overflow: "hidden",
+            height: "400px",
+            width: "300px",
+          }}
+        >
           <Image
-                         alt=""
+            alt=""
             src={image}
-            height={400}
-            width={300}
             className="w-full h-96 rounded-lg"
+            layout="fill"
           />
         </div>
         <div className="p-6">

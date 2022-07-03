@@ -15,8 +15,6 @@ export default function AddCtgModal({ isOpen, closeModal, onAdd }: ModalProp) {
     onAdd(name);
   }
   return (
-    <div>
-      <div>
         <Transition appear show={isOpen} as={Fragment}>
           <Dialog
             as="div"
@@ -99,7 +97,5 @@ export default function AddCtgModal({ isOpen, closeModal, onAdd }: ModalProp) {
             </div>
           </Dialog>
         </Transition>
-      </div>
-    </div>
   );
 }

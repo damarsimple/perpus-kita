@@ -10,6 +10,7 @@ import Footer from "../components/Footer";
 import Middleware from "../components/Middleware";
 import Navbar from "../components/Navbar";
 import { Book, findManyBookCountArgs } from "../generated";
+import { BOOK_COUNT } from "../graphql/queries";
 import ValidLoginModal from "../modals/ValidLoginModal";
 import styles from "../styles/Home.module.css";
 
@@ -17,19 +18,11 @@ const Home: NextPage = () => {
   const { pathname, push } = useRouter();
   let [isOpen, setIsOpen] = useState(true);
 
-  const BOOK_COUNT = gql`
-    query FindManyBook {
-      findManyBookCount
-    }
-  `;
-
-  type count = number;
-
   const {
     loading,
     error,
     data: BookCount,
-  } = useQuery<{ findManyBookCount: count }>(BOOK_COUNT);
+  } = useQuery<{ findManyBookCount: number }>(BOOK_COUNT);
 
   if (loading)
     return (

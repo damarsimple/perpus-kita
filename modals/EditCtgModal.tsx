@@ -21,8 +21,6 @@ export default function EditCtgModal({
     onAdd(name);
   }
   return (
-    <div>
-      <div>
         <Transition appear show={isOpen} as={Fragment}>
           <Dialog
             as="div"
@@ -106,7 +104,5 @@ export default function EditCtgModal({
             </div>
           </Dialog>
         </Transition>
-      </div>
-    </div>
   );
 }

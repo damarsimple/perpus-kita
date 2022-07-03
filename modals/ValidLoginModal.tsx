@@ -12,8 +12,6 @@ interface ModalProp {
 }
 export default function ValidLoginModal({ isOpen, closeModal }: ModalProp) {
   return (
-    <div>
-      <div>
         <Transition appear show={isOpen} as={Fragment}>
           <Dialog
             as="div"
@@ -86,7 +84,5 @@ export default function ValidLoginModal({ isOpen, closeModal }: ModalProp) {
             </div>
           </Dialog>
         </Transition>
-      </div>
-    </div>
   );
 }

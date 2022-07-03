@@ -13,6 +13,12 @@ export const GET_USERS = gql`
     }
   }
 `;
+export const BOOK_COUNT = gql`
+    query FindManyBook {
+      findManyBookCount
+    }
+  `;
+
 
 export const DEL_USER = gql`
   mutation Mutation($where: UserWhereUniqueInput!) {
@@ -70,8 +76,8 @@ export const FIND_USER = gql`
 `;
 
 export const GET_BOOKS = gql`
-  query Query($take: Int) {
-    findManyBook(take: $take) {
+  query Query($take: Int, $skip: Int,$where: BookWhereInput) {
+    findManyBook(take: $take, skip: $skip,where: $where) {
       id
       title
       cover
