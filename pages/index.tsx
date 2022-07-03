@@ -159,10 +159,10 @@ const Home: NextPage = () => {
             <span className="text-green-500 font-semibold">PERPUS</span>kita?
           </h3>
           <p className="text-gray-500 mt-5">
-            PERPUSkita wherever you are with only $5 to borrow <br />
-            a book and $5 for shipping you can already get
+            PERPUSkita wherever you are with only $10 to borrow <br />
+            a <strong>book</strong>
             <br />
-            the book of your dreams.
+            start borrow the book of your dreams.
           </p>
         </div>
         <div className="mx-auto">

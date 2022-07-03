@@ -21,9 +21,6 @@ export default function MyBalance() {
   const { user } = useUserStore();
   const [isSuccess, setIsSuccess] = useState(false);
 
-  function closeSuccesModal() {
-    setIsSuccess(false);
-  }
 
   function openSuccesModal() {
     setIsSuccess(true);
@@ -41,6 +38,7 @@ export default function MyBalance() {
     loading,
     error,
     data: dataTrans,
+    refetch: refetch2
   } = useQuery<{ findManyTransaction: Transaction[] }>(MY_TRANS, {
     variables: {
       where: {
@@ -53,7 +51,7 @@ export default function MyBalance() {
     },
   });
 
-  const { data: dataBalance } = useQuery<{ findUniqueUser: User }>(MY_BALANCE, {
+  const { data: dataBalance,refetch: refetch1 } = useQuery<{ findUniqueUser: User }>(MY_BALANCE, {
     variables: {
       where: {
         id: user?.id ?? 0,
@@ -74,6 +72,11 @@ export default function MyBalance() {
     },
   });
 
+  function closeSuccesModal() {
+    setIsSuccess(false);
+  }
+
+
   const onAdd = (value: number) => {
     // e.preventDefault();
     // const value = e.target.x.value;
@@ -88,7 +91,7 @@ export default function MyBalance() {
           id: user?.id ?? 0,
         },
       },
-    });
+    })
 
     createOneTransaction({
       variables: {
@@ -102,7 +105,10 @@ export default function MyBalance() {
           },
         },
       },
-    });
+    }).then(e => {
+      refetch1();
+      refetch2();
+    });;
   };
 
   return (
@@ -128,7 +134,7 @@ export default function MyBalance() {
               </div>
               <div>
                 <h1 className="px-3 py-1 bg-green-400 rounded-lg text-center text-white">
-                  My balance : ${dataBalance?.findUniqueUser?.balance}
+                  My balance : ${new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 3 }).format(dataBalance?.findUniqueUser?.balance ?? 0)}
                 </h1>
               </div>
             </div>
@@ -179,7 +185,7 @@ export default function MyBalance() {
                         <td className="py-4 px-4">{userId}</td>
                         <td className="py-4 px-4">{user.name}</td>
                         <td className="py-4 px-4">{type}</td>
-                        <td className="py-4 px-4">{amount}</td>
+                        <td className="py-4 px-4">${new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 3 }).format(amount)}</td>
                       </tr>
                     )
                   )}

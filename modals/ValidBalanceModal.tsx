@@ -70,7 +70,7 @@ export default function ValidValanceModal({ isOpen, closeModal }: ModalProp) {
                 <div className="mt-2">
                   <form>
                     <div className="ml-24">
-                      <Link href="/dashboard">
+                      <Link href="/dashboard/mybalance">
                         <button
                           type="submit"
                           className="inline-flex justify-center rounded-md border border-transparent bg-green-100 px-10 py-2 text-sm font-medium text-blue-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"

@@ -7,6 +7,7 @@ import { GET_LOANS } from "../../graphql/queries";
 import Link from "next/link";
 import { useUserStore } from "../../components/userStore";
 import Middleware from "../../components/Middleware";
+import { useRouter } from 'next/router';
 
 export default function MyLoan() {
   const { user } = useUserStore();
@@ -26,6 +27,9 @@ export default function MyLoan() {
     },
   });
 
+
+  const { push } = useRouter()
+
   return (
     <Middleware>
       <div>
@@ -41,6 +45,15 @@ export default function MyLoan() {
             >
               Add Book
             </button> */}
+              <button
+                type="button"
+                className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                onClick={() => {
+                  push("/find")
+                }}
+              >
+                Borrow new Book
+              </button>
             </div>
 
             <div className="mb-5">
