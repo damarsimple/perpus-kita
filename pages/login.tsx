@@ -79,12 +79,14 @@ export default function Login() {
             <input
               type="text"
               name="email"
+              required
               className=" rounded-xl bg-white border-0 shadow-md py-1 px-20 mb-4"
             />
             <p className="mb-3">Password</p>
             <input
               type="password"
               name="pass"
+              required
               className=" rounded-xl bg-white border-0 shadow-md py-1 px-20 mb-8"
             />
             <div className="">
