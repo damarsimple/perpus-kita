@@ -49,6 +49,14 @@ export const EDIT_USER = gql`
   }
 `;
 
+export const GET_ROLE = gql`
+  query Query($where: UserWhereUniqueInput!) {
+    findUniqueUser(where: $where) {
+      isAdmin
+    }
+  }
+`;
+
 export const FIND_USER = gql`
   query Query($where: UserWhereUniqueInput!) {
     findUniqueUser(where: $where) {
@@ -117,24 +125,6 @@ export const BORROW = gql`
   }
 `;
 
-// {
-// "data": {
-// "user": {
-// "connect": {
-// "id":
-// }
-// },
-// "book": {
-// "connect": {
-// "id": 2
-// }
-// },
-// "loanExpiredAt": "2022-7-8",
-// "createdAt": "2022-7-1",
-// "price": 10,
-// "status": "PENDING"
-// }
-
 export const TRANSAKSI1 = gql`
   mutation Mutation(
     $updateOneUserData2: UserUpdateInput!
@@ -173,25 +163,6 @@ export const TRANSAKSI3 = gql`
     }
   }
 `;
-// {
-// "data": {
-// "amount": 10,
-// "type": "MIDTRANS",
-// "user": {
-// "connect": {
-// "id": 1
-// }
-// }
-// },
-// "updateOneUserData2": {
-// "balance": {
-// "increment": 10
-// }
-// },
-// "where": {
-// "id": 1
-//   // }
-// }
 
 export const EDIT_AUTH = gql`
   mutation Mutation(
@@ -203,17 +174,6 @@ export const EDIT_AUTH = gql`
     }
   }
 `;
-
-// {
-// "data": {
-// "name": {
-// "set": null
-// }
-// },
-// "where": {
-// "id": null
-// }
-// }
 
 export const ADD_AUTH = gql`
   mutation Mutation($data: AuthorCreateInput!) {
@@ -231,15 +191,38 @@ export const DEL_AUTH = gql`
   }
 `;
 
-// {
-//   "where": {
-//     "id": null
-//   }
-// }
-
 export const GET_CATE = gql`
   query Query {
     findManyCategory {
+      id
+      name
+    }
+  }
+`;
+
+export const ADD_CATE = gql`
+  mutation Mutation($data: CategoryCreateInput!) {
+    createOneCategory(data: $data) {
+      id
+      name
+    }
+  }
+`;
+
+export const EDIT_CATE = gql`
+  mutation Mutation(
+    $data: CategoryUpdateInput!
+    $where: CategoryWhereUniqueInput!
+  ) {
+    updateOneCategory(data: $data, where: $where) {
+      id
+    }
+  }
+`;
+
+export const DEL_CATE = gql`
+  mutation Mutation($where: CategoryWhereUniqueInput!) {
+    deleteOneCategory(where: $where) {
       id
       name
     }
@@ -254,24 +237,23 @@ export const CREATE_BOOK = gql`
   }
 `;
 
-// {
-// "data": {
-// "title": null,
-// "cover": null,
-// "author": {
-// "connect": {
-// "id": null
-// }
-// },
-// "categories": {
-// "connect": [
-// {
-// "id": null
-// }
-// ]
-// }
-// }
-// }
+export const EDIT_BOOK = gql`
+  mutation Mutation($data: BookUpdateInput!, $where: BookWhereUniqueInput!) {
+    updateOneBook(data: $data, where: $where) {
+      id
+      title
+    }
+  }
+`;
+
+export const DEL_BOOK = gql`
+  mutation Mutation($where: BookWhereUniqueInput!) {
+    deleteOneBook(where: $where) {
+      id
+      title
+    }
+  }
+`;
 
 export const GET_TRANS = gql`
   query Query {
@@ -324,6 +306,15 @@ export const MY_BALANCE = gql`
   query Query($where: UserWhereUniqueInput!) {
     findUniqueUser(where: $where) {
       balance
+    }
+  }
+`;
+
+export const DEL_LOAN = gql`
+  mutation DeleteOneUserLoan($where: UserLoanWhereUniqueInput!) {
+    deleteOneUserLoan(where: $where) {
+      id
+      userId
     }
   }
 `;

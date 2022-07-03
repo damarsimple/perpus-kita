@@ -1,18 +1,16 @@
-import React, { Fragment } from "react";
-import { Dialog, Transition } from "@headlessui/react";
+import React, { Fragment, useState } from "react";
+import Image from "next/image";
+import { Combobox, Dialog, Transition } from "@headlessui/react";
+import { Author, Category, User } from "../generated";
+import { GET_AUTHORS, GET_CATE, MY_BALANCE } from "../graphql/queries";
+import { useQuery } from "@apollo/client";
+import Link from "next/link";
 
 interface ModalProp {
   isOpen: boolean;
   closeModal: Function;
-  onAdd: Function;
 }
-export default function AddAuthModal({ isOpen, closeModal, onAdd }: ModalProp) {
-  async function handleForm(e: any) {
-    e.preventDefault();
-    const name = e.target.name.value;
-
-    onAdd(name);
-  }
+export default function SuccesModal({ isOpen, closeModal }: ModalProp) {
   return (
     <div>
       <div>
@@ -45,48 +43,47 @@ export default function AddAuthModal({ isOpen, closeModal, onAdd }: ModalProp) {
                   leaveFrom="opacity-100 scale-100"
                   leaveTo="opacity-0 scale-95"
                 >
-                  <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                  <Dialog.Panel className="w-full text-center max-w-md transform overflow-hidden rounded-2xl bg-white p-6 align-middle shadow-xl transition-all">
+                    <Image src="/Sukses.svg" height={300} width={300} />
                     <Dialog.Title
                       as="h3"
-                      className="text-lg font-medium leading-6 text-gray-900"
+                      className="text-xl font-medium leading-6 text-gray-900"
                     >
-                      Form Author
+                      Yeayy, Operation{" "}
+                      <span className="font-semibold text-green-400">
+                        Success
+                      </span>
+                      {":)"}
                     </Dialog.Title>
+                    <div className="my-3 text-gray-500 font-normal">
+                      what do you want to do next?
+                    </div>
                     <div className="mt-2">
-                      {/* <p className="text-sm text-gray-500">
-                      Your payment has been successfully submitted. We’ve sent
-                      you an email with all of the details of your order.
-                    </p> */}
-                      <form onSubmit={handleForm}>
-                        <div className="mb-6">
-                          <label
-                            htmlFor="name"
-                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                          >
-                            Name Author
-                          </label>
-                          <input
-                            type="text"
-                            id="name"
-                            name="name"
-                            className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
-                            placeholder="Name Author"
-                            required
-                          />
-                        </div>
+                      <form>
                         <div className="ml-24">
+                          <Link href="/dashboard">
+                            <button
+                              type="button"
+                              className="inline-flex justify-center rounded-md border border-transparent bg-green-100 px-10 py-2 text-sm font-medium text-blue-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                            >
+                              Dashboard
+                            </button>
+                          </Link>
+                          {/* <Link href="/dashboard"> */}
                           <button
-                            type="submit"
-                            className="inline-flex justify-center rounded-md border border-transparent bg-green-100 px-10 py-2 text-sm font-medium text-blue-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                            type="button"
+                            onClick={() => window.location.reload()}
+                            className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-green-100 px-10 py-2 text-sm font-medium text-blue-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                           >
-                            Save
+                            Refresh
                           </button>
+                          {/* </Link> */}
                           <button
                             type="button"
                             className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                             onClick={() => closeModal()}
                           >
-                            Cancel
+                            Close
                           </button>
                         </div>
                         {/* </div> */}

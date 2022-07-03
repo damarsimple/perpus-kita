@@ -2,11 +2,14 @@ import Link from "next/link";
 import React, { useState } from "react";
 import Image from "next/image";
 import Button from "./Button";
-import BorrowModal from "../modals/BorrowModal";
-import { useMutation } from "@apollo/client";
-import { BORROW, TRANSAKSI3 } from "../graphql/queries";
+import { useMutation, useQuery } from "@apollo/client";
+import { BORROW, MY_BALANCE, TRANSAKSI3 } from "../graphql/queries";
 import AddOn from "../modals/AddLoanModal";
 import AddLoanModal from "../modals/AddLoanModal";
+import { User } from "../generated";
+import ValidValanceModal from "../modals/ValidBalanceModal";
+import { useUserStore } from "./userStore";
+import SuccesModal from "../modals/SuccesModal";
 
 interface CardProp {
   title: string;
@@ -25,6 +28,17 @@ export default function CardBook({
 }: CardProp) {
   let [isOpen, setIsOpen] = useState(false);
   let [isIdBook, setIdBook] = useState(id);
+  let [isOpenValid, setIsOpenValid] = useState(false);
+  const { user } = useUserStore();
+  let [isSuccess, setIsSuccess] = useState(false);
+
+  function closeSuccesModal() {
+    setIsSuccess(false);
+  }
+
+  function openSuccesModal() {
+    setIsSuccess(true);
+  }
 
   function closeModal() {
     setIsOpen(false);
@@ -32,11 +46,13 @@ export default function CardBook({
 
   function openModal(target: number) {
     setIdBook(target);
+    // setIsOpenValid(true);
     setIsOpen(true);
   }
 
-  const [createOneUserLoan] = useMutation(BORROW, {
-    onCompleted: () => {
+  const [createOneUserLoan] = useMutation<{ d: number }>(BORROW, {
+    onCompleted: (data) => {
+      openSuccesModal();
       closeModal();
       // window.location.reload();
     },
@@ -50,7 +66,7 @@ export default function CardBook({
         data: {
           user: {
             connect: {
-              id: 1,
+              id: user?.id ?? 0,
             },
           },
           book: {
@@ -80,8 +96,20 @@ export default function CardBook({
     });
   };
 
+  const closeValidModal = () => {
+    setIsOpenValid(false);
+  };
+
+  const openValidModal = () => {
+    setIsOpenValid(true);
+  };
+
   return (
     <div className="flex justify-center">
+      <SuccesModal
+        isOpen={isSuccess}
+        closeModal={closeSuccesModal}
+      ></SuccesModal>
       <div className="rounded-lg drop-shadow-xl bg-white">
         <div>
           <Image
@@ -105,12 +133,17 @@ export default function CardBook({
           >
             Borrow
           </button>
+          {/* <ValidValanceModal
+            isOpen={isOpenValid}
+            closeModal={closeValidModal}
+          /> */}
           <AddLoanModal
             isOpen={isOpen}
             closeModal={closeModal}
             onAdd={onAdd}
             idBook={id}
             title={title}
+            validBalance={true}
           ></AddLoanModal>
           {/* <BorrowModal
             isOpenBor={isOpen}

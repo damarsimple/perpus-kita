@@ -1,11 +1,35 @@
+import { useQuery } from "@apollo/client";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
+import { User } from "../generated";
+import { GET_ROLE, GET_USERS } from "../graphql/queries";
+import { useUserStore } from "./userStore";
 
 export default function Dashboard() {
+  const { user, setUser } = useUserStore();
+  const { push } = useRouter();
+
+  function logout() {
+    setUser(null);
+    push("/");
+  }
+
+  const {
+    loading,
+    error,
+    data: dataRole,
+  } = useQuery<{ findUniqueUser: User }>(GET_ROLE, {
+    variables: {
+      where: {
+        id: user?.id ?? 0,
+      },
+    },
+  });
   return (
     <div>
       <nav className="bg-gray-900 w-20 h-screen justify-between flex flex-col ">
-        <div className="mt-10 mb-10">
+        <div className="mt-5 mb-5">
           <a href="#">
             <img
               src="/avatar.png"
@@ -13,13 +37,34 @@ export default function Dashboard() {
               title="User Avatar"
             />
           </a>
-          <div className="mt-10">
+          <div className="mt-5">
             <ul>
               {[
                 {
                   title: "Dashboard",
                   route: "/dashboard/ ",
                   isAdmin: true,
+                  img: (
+                    <div>
+                      <span>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="16"
+                          height="16"
+                          fill="currentColor"
+                          className="bi bi-house-door-fill fill-current h-5 w-5 text-gray-300 mx-auto hover:text-green-500"
+                          viewBox="0 0 18 18"
+                        >
+                          <path d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5z" />
+                        </svg>
+                      </span>
+                    </div>
+                  ),
+                },
+                {
+                  title: "Dashboard Page",
+                  route: "/dashboard/ ",
+                  isAdmin: false,
                   img: (
                     <div>
                       <span>
@@ -110,6 +155,28 @@ export default function Dashboard() {
                   ),
                 },
                 {
+                  title: "Category Data",
+                  route: "/dashboard/ctg",
+                  isAdmin: true,
+                  img: (
+                    <div>
+                      <span>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="16"
+                          height="16"
+                          fill="currentColor"
+                          className="bi bi-pen-fill fill-current h-5 w-5 text-gray-300 mx-auto hover:text-green-500"
+                          viewBox="0 0 18 18"
+                        >
+                          <path d="M6 4.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm-1 0a.5.5 0 1 0-1 0 .5.5 0 0 0 1 0z" />
+                          <path d="M2 1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 1 6.586V2a1 1 0 0 1 1-1zm0 5.586 7 7L13.586 9l-7-7H2v4.586z" />
+                        </svg>
+                      </span>
+                    </div>
+                  ),
+                },
+                {
                   title: "Books Data",
                   route: "/dashboard/book",
                   isAdmin: true,
@@ -151,27 +218,6 @@ export default function Dashboard() {
                     </div>
                   ),
                 },
-                // {
-                //   title: "Loan Request",
-                //   route: "/dashboard/req",
-                //   isAdmin: true,
-                //   img: (
-                //     <div>
-                //       <span>
-                //         <svg
-                //           xmlns="http://www.w3.org/2000/svg"
-                //           width="16"
-                //           height="16"
-                //           fill="currentColor"
-                //           className="bi bi-hourglass-bottom fill-current h-5 w-5 text-gray-300 mx-auto hover:text-green-500"
-                //           viewBox="0 0 18 18"
-                //         >
-                //           <path d="M2 1.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-1v1a4.5 4.5 0 0 1-2.557 4.06c-.29.139-.443.377-.443.59v.7c0 .213.154.451.443.59A4.5 4.5 0 0 1 12.5 13v1h1a.5.5 0 0 1 0 1h-11a.5.5 0 1 1 0-1h1v-1a4.5 4.5 0 0 1 2.557-4.06c.29-.139.443-.377.443-.59v-.7c0-.213-.154-.451-.443-.59A4.5 4.5 0 0 1 3.5 3V2h-1a.5.5 0 0 1-.5-.5zm2.5.5v1a3.5 3.5 0 0 0 1.989 3.158c.533.256 1.011.791 1.011 1.491v.702s.18.149.5.149.5-.15.5-.15v-.7c0-.701.478-1.236 1.011-1.492A3.5 3.5 0 0 0 11.5 3V2h-7z" />
-                //         </svg>
-                //       </span>
-                //     </div>
-                //   ),
-                // },
                 {
                   title: "Loan Data",
                   route: "/dashboard/loan",
@@ -197,7 +243,7 @@ export default function Dashboard() {
                 {
                   title: "My Loan",
                   route: "/dashboard/myloan",
-                  isAdmin: true,
+                  isAdmin: false,
                   img: (
                     <div>
                       <span>
@@ -216,9 +262,9 @@ export default function Dashboard() {
                   ),
                 },
                 {
-                  title: "Balance",
+                  title: "My Balance",
                   route: "/dashboard/mybalance",
-                  isAdmin: true,
+                  isAdmin: false,
                   img: (
                     <div>
                       <span>
@@ -238,10 +284,14 @@ export default function Dashboard() {
                 },
               ].map((e) => (
                 <span>
-                  {/* {e.isAdmin == true ? {} : ""} */}
                   <div>
                     <li
-                      className={"mb-6 " + (e.isAdmin == true ? " " : "hidden")}
+                      className={
+                        "mb-6 " +
+                        (e.isAdmin == dataRole?.findUniqueUser.isAdmin
+                          ? " "
+                          : "hidden")
+                      }
                       key={e.title}
                       title={e.title}
                     >
@@ -253,8 +303,8 @@ export default function Dashboard() {
             </ul>
           </div>
         </div>
-        <div className="mb-4">
-          <Link href="/">
+        <div className="mb-2">
+          <div onClick={() => logout()}>
             <span title="Logout">
               <svg
                 className="fill-current h-5 w-5 text-gray-300 mx-auto hover:text-red-500"
@@ -272,7 +322,7 @@ export default function Dashboard() {
                 />
               </svg>
             </span>
-          </Link>
+          </div>
         </div>
       </nav>
     </div>

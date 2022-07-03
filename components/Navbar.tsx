@@ -17,13 +17,13 @@ export default function Navbar() {
           {[
             { name: "Home", route: "/" },
             { name: "Find Your Book", route: "/find" },
-            { name: "About Us", route: "/about" },
+            { name: "About Us", route: "/team" },
           ].map((e) => (
             <Link key={e.name} href={e.route}>
               <a
                 className={
                   "mx-2 text-lg font-normal" +
-                  (pathname == e.route ? " text-green-400 " : "")
+                  (pathname == e.route ? " text-green-600 " : "")
                 }
               >
                 {e.name}

@@ -1,29 +1,34 @@
 import { useMutation, useQuery } from "@apollo/client";
 import React, { useState } from "react";
+import Image from "next/image";
 import Dashboard from "../../components/Dashboard";
-import Middleware from "../../components/Middleware";
-import { Author, Book } from "../../generated";
+import { Book, Category } from "../../generated";
 import {
-  ADD_AUTH,
-  DEL_AUTH,
-  EDIT_AUTH,
-  GET_AUTHORS,
+  ADD_CATE,
+  CREATE_BOOK,
+  DEL_BOOK,
+  DEL_CATE,
+  EDIT_BOOK,
+  EDIT_CATE,
+  GET_BOOKS,
+  GET_CATE,
 } from "../../graphql/queries";
-import AddAuthModal from "../../modals/AddAuthModal";
-import DelAuthModal from "../../modals/DelAuthModal";
-import EditAuthModal from "../../modals/EditAuthModal";
+import AddBookModal from "../../modals/AddBookModal";
+import EditUserModal from "../../modals/EditUserModal";
+import EditBookModal from "../../modals/EditBookModal";
+import DelBookModal from "../../modals/DelBookModal";
 import SuccesModal from "../../modals/SuccesModal";
+import AddCtgModal from "../../modals/AddCtgModal";
+import EditCtgModal from "../../modals/EditCtgModal";
+import DelCtgModal from "../../modals/DelCtgModal";
+import Middleware from "../../components/Middleware";
 
-export default function author() {
+export default function ctg() {
   const {
     loading,
     error,
-    data: dataAuthor,
-  } = useQuery<{ findManyAuthor: Author[] }>(GET_AUTHORS, {
-    variables: {
-      take: 5,
-    },
-  });
+    data: dataCtg,
+  } = useQuery<{ findManyCategory: Category[] }>(GET_CATE, {});
 
   let [isOpen, setIsOpen] = useState(false);
   let [isOpenEdit, setIsOpenEdit] = useState(false);
@@ -41,8 +46,6 @@ export default function author() {
     setIsSuccess(true);
   }
 
-  //add
-
   function closeModal() {
     setIsOpen(false);
   }
@@ -51,7 +54,7 @@ export default function author() {
     setIsOpen(true);
   }
 
-  const [createOneAuthor] = useMutation(ADD_AUTH, {
+  const [createOneCategory] = useMutation(ADD_CATE, {
     onCompleted: () => {
       openSuccesModal();
       closeModal();
@@ -59,7 +62,7 @@ export default function author() {
   });
 
   const onAdd = (name: string) => {
-    createOneAuthor({
+    createOneCategory({
       variables: {
         data: {
           name: name,
@@ -79,24 +82,23 @@ export default function author() {
     setIsOpenEdit(true);
   }
 
-  const [updateOneAuthor] = useMutation(EDIT_AUTH, {
+  const [updateOneCategory] = useMutation(EDIT_CATE, {
     onCompleted: () => {
       openSuccesModal();
-      setActionId(0);
       closeEditModal();
     },
   });
 
   const onEdit = (name: string) => {
-    updateOneAuthor({
+    updateOneCategory({
       variables: {
-        where: {
-          id: actionId,
-        },
         data: {
           name: {
             set: name,
           },
+        },
+        where: {
+          id: actionId,
         },
       },
     });
@@ -112,7 +114,7 @@ export default function author() {
     setIsOpenDel(true);
   }
 
-  const [deleteOneAuthor] = useMutation(DEL_AUTH, {
+  const [deleteOneCategory] = useMutation(DEL_CATE, {
     onCompleted: () => {
       openSuccesModal();
       closeDelModal();
@@ -120,7 +122,7 @@ export default function author() {
   });
 
   const onDel = () => {
-    deleteOneAuthor({
+    deleteOneCategory({
       variables: {
         where: {
           id: actionId,
@@ -140,20 +142,20 @@ export default function author() {
           <Dashboard />
           <div className="px-16 py-4 text-white dark:bg-gray-700 h-screen w-screen overflow-auto">
             <div className="mt-10 mb-5 flex justify-between">
-              <h1 className="font-semibold text-2xl">Authors Data</h1>
+              <h1 className="font-semibold text-2xl">Category Data</h1>
               <button
                 type="button"
                 className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                 onClick={openModal}
               >
-                Add Author
+                Add Category
               </button>
-              <AddAuthModal
-                isOpen={isOpen}
-                closeModal={closeModal}
-                onAdd={onAdd}
-              ></AddAuthModal>
             </div>
+            <AddCtgModal
+              isOpen={isOpen}
+              closeModal={closeModal}
+              onAdd={onAdd}
+            ></AddCtgModal>
 
             <div className="mb-5">
               <p className="text-center text-gray-400">
@@ -169,13 +171,10 @@ export default function author() {
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-white dark:text-gray-800">
                   <tr>
                     <th scope="" className="px-6 py-3">
-                      ID Author
+                      ID Category
                     </th>
                     <th scope="" className="px-6 py-3">
                       Name
-                    </th>
-                    <th scope="" className="px-6 py-3">
-                      Total Book
                     </th>
                     <th scope="" className="px-6 py-3">
                       Action
@@ -183,7 +182,7 @@ export default function author() {
                   </tr>
                 </thead>
                 <tbody>
-                  {dataAuthor?.findManyAuthor.map(({ id, name, _count }) => (
+                  {dataCtg?.findManyCategory.map(({ id, name }) => (
                     <tr
                       key={id}
                       className="border-b dark:bg-gray-800 dark:border-gray-700 odd:bg-white even:bg-gray-50 odd:dark:bg-gray-800 even:dark:bg-gray-700"
@@ -195,7 +194,6 @@ export default function author() {
                         {id}
                       </td>
                       <td className="py-4 px-4">{name}</td>
-                      <td className="py-4 px-4">{_count.books}</td>
                       <td className="py-4 px-4" key={id}>
                         <button
                           onClick={() => openEditModal(id, name)}
@@ -203,12 +201,12 @@ export default function author() {
                         >
                           Edit
                         </button>
-                        <EditAuthModal
+                        <EditCtgModal
                           isOpen={isOpenEdit}
                           closeModal={closeEditModal}
                           onAdd={onEdit}
                           name={actionName}
-                        ></EditAuthModal>
+                        ></EditCtgModal>
 
                         <button
                           onClick={() => openDelModal(id)}
@@ -216,12 +214,12 @@ export default function author() {
                         >
                           Delete
                         </button>
-                        <DelAuthModal
+                        <DelCtgModal
                           isOpen={isOpenDel}
                           closeModal={closeDelModal}
                           onDel={onDel}
-                          idAuth={actionId}
-                        />
+                          idCtg={actionId}
+                        ></DelCtgModal>
                       </td>
                     </tr>
                   ))}

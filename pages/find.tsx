@@ -8,7 +8,7 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { Book } from "../generated";
 import { BORROW, GET_BOOKS } from "../graphql/queries";
-import BorrowModal from "../modals/BorrowModal";
+import { useUserStore } from "../components/userStore";
 
 export default function Find() {
   const {
@@ -24,6 +24,7 @@ export default function Find() {
   let [isOpenBor, setIsOpenBor] = useState(false);
   let [idBook, setIdBook] = useState(Number);
   let [titleBook, setTitleBook] = useState(String);
+  const { user } = useUserStore();
 
   function closeBorModal() {
     setIsOpenBor(false);
@@ -50,7 +51,7 @@ export default function Find() {
         data: {
           user: {
             connect: {
-              id: 1,
+              id: user?.id ?? 0,
             },
           },
           book: {

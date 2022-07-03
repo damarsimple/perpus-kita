@@ -4,14 +4,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { title } from "process";
+import { useState } from "react";
 import Button from "../components/Button";
 import Footer from "../components/Footer";
+import Middleware from "../components/Middleware";
 import Navbar from "../components/Navbar";
 import { Book, findManyBookCountArgs } from "../generated";
+import ValidLoginModal from "../modals/ValidLoginModal";
 import styles from "../styles/Home.module.css";
 
 const Home: NextPage = () => {
   const { pathname, push } = useRouter();
+  let [isOpen, setIsOpen] = useState(true);
 
   const EXCHANGE_RATES = gql`
     query Query($take: Int) {
@@ -51,6 +55,13 @@ const Home: NextPage = () => {
       </div>
     );
 
+  function closeModal() {
+    setIsOpen(false);
+  }
+
+  function openModal() {
+    setIsOpen(true);
+  }
   return (
     <div>
       <Navbar />
@@ -162,30 +173,6 @@ const Home: NextPage = () => {
         </div>
       </section>
 
-      {/* <section className="flex flex-col justify-center text-center my-24">
-        <h3 className="font-medium text-3xl">
-          Login to <span className="text-green-600">Start</span>
-        </h3>
-
-        <small className="text-gray-400">
-          Login to your account and start <br />
-          to find your favorite book
-        </small>
-
-        <div className="flex gap-10 lg:gap-24 justify-center my-4 ">
-          {[
-            { name: "Login Student", route: "/login", image: "/siswa.png" },
-            { name: "Login Admin", route: "/login", image: "/admin.png" },
-          ].map((e) => (
-            <div key={e.name} className="flex gap-3 flex-col">
-              <Image src={e.image} height={430} width={280} />
-
-              <Button>{e.name}</Button>
-            </div>
-          ))}
-        </div>
-      </section> */}
-
       <section className="flex justify-between text-center mt-10 content-center">
         <div className="self-center text-left mx-auto">
           <h3 className="font-medium text-3xl text-gray-700">
@@ -212,11 +199,15 @@ const Home: NextPage = () => {
             Let's <span className="text-green-500 font-semibold">Join Us</span>
           </h3>
           <p className="text-gray-500 my-3">
-            Create an account and start exploring
+            Create an account and start exxploring
             <br />
             PERPUSkita collection
           </p>
-          <Button px={80}>Register Now</Button>
+          <Link href="/register">
+            <Button px={80} link={"/register"}>
+              Register Now
+            </Button>
+          </Link>
         </div>
       </section>
 
