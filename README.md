@@ -43,7 +43,11 @@ test
 - junna masuk
 - ijin join bang
 
+
 - ini ima
 
 - misi numpang lewat
+
+- p mubarrok blackman
+
 
