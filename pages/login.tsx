@@ -15,7 +15,7 @@ interface AuthPayload {
   status: boolean;
 }
 
-export default function login() {
+export default function Login() {
   const [errorMessage, setErrorMessage] = useState("");
   const { user, setUser } = useUserStore();
 
@@ -73,31 +73,33 @@ export default function login() {
           <p className="text-gray-500 mb-4">
             Please enter your account username and password.
           </p>
+          <p className="text-red-500">{errorMessage}</p>
           <form onSubmit={handle} method="post">
             <p className="mb-3">Email</p>
             <input
               type="text"
               name="email"
-              className=" rounded-xl bg-white border-0 shadow-md py-1 px-28 mb-4"
+              className=" rounded-xl bg-white border-0 shadow-md py-1 px-20 mb-4"
             />
             <p className="mb-3">Password</p>
             <input
               type="password"
               name="pass"
-              className=" rounded-xl bg-white border-0 shadow-md py-1 px-28 mb-8"
+              className=" rounded-xl bg-white border-0 shadow-md py-1 px-20 mb-8"
             />
             <div className="">
               <button
                 type="submit"
+                disabled={loading}
                 className="inline-flex justify-center border border-transparent bg-green-400 px-40 rounded-xl py-2 text-sm font-medium text-white hover:bg-green-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
               >
-                Login
+                {loading ? "loading..." : "Login"}
               </button>
               <div className="mb-4"></div>
               <Link href="/register">
                 <button
                   type="button"
-                  className="inline-flex justify-center border border-transparent bg-gray-200 px-40 rounded-xl py-2 text-sm font-medium text-black hover:bg-gray-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                  className="inline-flex justify-center border border-transparent bg-gray-200 px-36 rounded-xl py-2 text-sm font-medium text-black hover:bg-gray-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                 >
                   Register
                 </button>

@@ -14,7 +14,7 @@ import DelAuthModal from "../../modals/DelAuthModal";
 import EditAuthModal from "../../modals/EditAuthModal";
 import SuccesModal from "../../modals/SuccesModal";
 
-export default function author() {
+export default function DataAuthor() {
   const {
     loading,
     error,
@@ -143,17 +143,17 @@ export default function author() {
               <h1 className="font-semibold text-2xl">Authors Data</h1>
               <button
                 type="button"
-                className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                className="ml-3 inline-flex self-end rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                 onClick={openModal}
               >
                 Add Author
               </button>
-              <AddAuthModal
-                isOpen={isOpen}
-                closeModal={closeModal}
-                onAdd={onAdd}
-              ></AddAuthModal>
             </div>
+            <AddAuthModal
+              isOpen={isOpen}
+              closeModal={closeModal}
+              onAdd={onAdd}
+            ></AddAuthModal>
 
             <div className="mb-5">
               <p className="text-center text-gray-400">

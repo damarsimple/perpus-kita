@@ -15,7 +15,7 @@ interface AuthPayload {
   status: boolean;
 }
 
-export default function register() {
+export default function Register() {
   const [errorMessage, setErrorMessage] = useState("");
   const { user, setUser } = useUserStore();
   const [handleRegister, { loading, error }] = useMutation<{

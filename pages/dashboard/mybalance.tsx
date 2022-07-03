@@ -16,7 +16,7 @@ import { useUserStore } from "../../components/userStore";
 import SuccesModal from "../../modals/SuccesModal";
 import Middleware from "../../components/Middleware";
 
-export default function transaction() {
+export default function MyBalance() {
   let [isOpen, setIsOpen] = useState(false);
   const { user } = useUserStore();
   const [isSuccess, setIsSuccess] = useState(false);

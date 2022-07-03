@@ -14,7 +14,7 @@ import DeleteUserModal from "../../modals/DeleteUserModal";
 import EditUserModal from "../../modals/EditUserModal";
 import SuccesModal from "../../modals/SuccesModal";
 
-export default function admin() {
+export default function DataAdmin() {
   const {
     loading,
     error,

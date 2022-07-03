@@ -6,7 +6,7 @@ import { Transaction, UserLoan } from "../../generated";
 import { GET_LOANS, GET_TRANS } from "../../graphql/queries";
 import Middleware from "../../components/Middleware";
 
-export default function transaction() {
+export default function IsTransaction() {
   const {
     loading,
     error,
@@ -22,13 +22,6 @@ export default function transaction() {
           <div className="px-16 py-4 text-white dark:bg-gray-700 h-screen w-screen overflow-auto">
             <div className="mt-10 mb-5 flex justify-between">
               <h1 className="font-semibold text-2xl">Log Transaction</h1>
-              {/* <button
-              type="button"
-              className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-              //   onClick={openAddModal}
-            >
-              Add Book
-            </button> */}
             </div>
 
             <div className="mb-5">

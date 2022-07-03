@@ -8,7 +8,7 @@ import DelLoanModal from "../../modals/DelLoanModal";
 import Middleware from "../../components/Middleware";
 import SuccesModal from "../../modals/SuccesModal";
 
-export default function Loan() {
+export default function DataLoan() {
   const {
     loading,
     error,

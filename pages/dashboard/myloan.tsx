@@ -8,7 +8,7 @@ import Link from "next/link";
 import { useUserStore } from "../../components/userStore";
 import Middleware from "../../components/Middleware";
 
-export default function myloan() {
+export default function MyLoan() {
   const { user } = useUserStore();
   const {
     loading,

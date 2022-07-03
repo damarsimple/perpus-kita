@@ -17,7 +17,7 @@ import EditUserModal from "../../modals/EditUserModal";
 import SuccesModal from "../../modals/SuccesModal";
 import Middleware from "../../components/Middleware";
 
-export default function users({}) {
+export default function DataUsers({}) {
   const {
     loading,
     error,

@@ -16,7 +16,7 @@ import DelBookModal from "../../modals/DelBookModal";
 import SuccesModal from "../../modals/SuccesModal";
 import Middleware from "../../components/Middleware";
 
-export default function book() {
+export default function DataBook() {
   const {
     loading,
     error,

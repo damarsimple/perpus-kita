@@ -23,7 +23,7 @@ import EditCtgModal from "../../modals/EditCtgModal";
 import DelCtgModal from "../../modals/DelCtgModal";
 import Middleware from "../../components/Middleware";
 
-export default function ctg() {
+export default function DataCtg() {
   const {
     loading,
     error,

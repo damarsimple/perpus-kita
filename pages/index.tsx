@@ -17,25 +17,11 @@ const Home: NextPage = () => {
   const { pathname, push } = useRouter();
   let [isOpen, setIsOpen] = useState(true);
 
-  const EXCHANGE_RATES = gql`
-    query Query($take: Int) {
-      findManyBook(take: $take) {
-        title
-        author {
-          name
-        }
-        id
-      }
-    }
-  `;
-
   const BOOK_COUNT = gql`
     query FindManyBook {
       findManyBookCount
     }
   `;
-
-  const { data } = useQuery<{ findManyBook: Book[] }>(EXCHANGE_RATES);
 
   type count = number;
 
@@ -80,13 +66,13 @@ const Home: NextPage = () => {
           </p>
 
           <div className="flex gap-3 justify-center">
-            <Link href="#">
-              <Button color="red" px={20}>
-                Get Started
+            <Link href="/register">
+              <Button color="red" link={"/register"} px={20}>
+                Register
               </Button>
             </Link>
-            <Link href="#">
-              <Button bType="outlined" px={20}>
+            <Link href="/team">
+              <Button bType="outlined" px={20} link={"/team"}>
                 About Us
               </Button>
             </Link>
