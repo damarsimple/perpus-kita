@@ -49,6 +49,5 @@ test
 
 - misi numpang lewat
 
+-aini hadir((:
 - p mubarrok blackman
-
-
