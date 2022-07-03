@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from "react";
 import { Combobox, Dialog, Transition } from "@headlessui/react";
-import { Category } from "../generated";
-import { GET_CATE } from "../graphql/queries";
+import { Author, Category } from "../generated";
+import { GET_AUTHORS, GET_CATE } from "../graphql/queries";
 import { useQuery } from "@apollo/client";
 
 interface ModalProp {
@@ -12,8 +12,11 @@ interface ModalProp {
 export default function AddBookModal({ isOpen, closeModal, onAdd }: ModalProp) {
   async function handleForm(e: any) {
     e.preventDefault();
-
-    onAdd();
+    const title = e.target.title.value;
+    const cover = e.target.cover.value;
+    const authId = e.target.auth.value;
+    const ctgId = e.target.ctg.value;
+    onAdd(title, cover, Number(authId), Number(ctgId));
   }
 
   const { data: dataCtg } = useQuery<{ findManyCategory: Category[] }>(
@@ -21,30 +24,19 @@ export default function AddBookModal({ isOpen, closeModal, onAdd }: ModalProp) {
     {}
   );
 
-  const [selectedCtg, setSelectedCtg] = useState(1);
-  const [queryCtg, setQueryCtg] = useState("");
-
-  const filterCtg =
-    queryCtg === ""
-      ? dataCtg?.findManyCategory
-      : dataCtg?.findManyCategory.filter((name) =>
-          name.name
-            .toLowerCase()
-            .replace(/\s+/g, "")
-            .includes(queryCtg.toLowerCase().replace(/\s+/g, ""))
-        );
-
-  //   dataCtg?.findManyCategory.map((e) =>
-  //     // listCtg.push(e.id);
-  //     console.log(e.name)
-  //   );
-
-  //   console.log(listCtg);
+  const { data: dataAuth } = useQuery<{ findManyAuthor: Author[] }>(
+    GET_AUTHORS,
+    {
+      variables: {
+        take: 50,
+      },
+    }
+  );
 
   return (
     <div>
       <div>
-        {/* <Transition appear show={isOpen} as={Fragment}>
+        <Transition appear show={isOpen} as={Fragment}>
           <Dialog
             as="div"
             className="relative z-10"
@@ -97,6 +89,8 @@ export default function AddBookModal({ isOpen, closeModal, onAdd }: ModalProp) {
                             placeholder="Book Title"
                             required
                           />
+                        </div>
+                        <div className="mb-6">
                           <label
                             htmlFor="cover"
                             className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
@@ -111,90 +105,43 @@ export default function AddBookModal({ isOpen, closeModal, onAdd }: ModalProp) {
                             placeholder="Book Cover"
                             required
                           />
-                          <Combobox value={selectedCtg} onChange={setSelectedCtg}>
-                            <div className="relative mt-1">
-                              <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
-                                <Combobox.Input
-                                  className="w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
-                                  displayValue={(dataCtg?.findManyCategory.map((name))) => (e.name) )}
-                                  onChange={(event) =>
-                                    setQueryCtg(event.target.value)
-                                  }
-                                />
-                                {/* <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
-                                  <SelectorIcon
-                                    className="h-5 w-5 text-gray-400"
-                                    aria-hidden="true"
-                                  />
-                                </Combobox.Button> */}
-                              </div>
-                              <Transition
-                                as={Fragment}
-                                leave="transition ease-in duration-100"
-                                leaveFrom="opacity-100"
-                                leaveTo="opacity-0"
-                                afterLeave={() => setQueryCtg("")}
-                              >
-                                <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                                  {filterCtg?.length === 0 &&
-                                  query !== "" ? (
-                                    <div className="relative cursor-default select-none py-2 px-4 text-gray-700">
-                                      Nothing found.
-                                    </div>
-                                  ) : (
-                                    filteredPeople.map((person) => (
-                                      <Combobox.Option
-                                        key={person.id}
-                                        className={({ active }) =>
-                                          `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                                            active
-                                              ? "bg-teal-600 text-white"
-                                              : "text-gray-900"
-                                          }`
-                                        }
-                                        value={person}
-                                      >
-                                        {({ selected, active }) => (
-                                          <>
-                                            <span
-                                              className={`block truncate ${
-                                                selected
-                                                  ? "font-medium"
-                                                  : "font-normal"
-                                              }`}
-                                            >
-                                              {person.name}
-                                            </span>
-                                            {selected ? (
-                                              <span
-                                                className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
-                                                  active
-                                                    ? "text-white"
-                                                    : "text-teal-600"
-                                                }`}
-                                              >
-                                                <CheckIcon
-                                                  className="h-5 w-5"
-                                                  aria-hidden="true"
-                                                />
-                                              </span>
-                                            ) : null}
-                                          </>
-                                        )}
-                                      </Combobox.Option>
-                                    ))
-                                  )}
-                                </Combobox.Options>
-                              </Transition>
-                            </div>
-                          </Combobox>
+                        </div>
+                        <div className="mb-6">
+                          <label
+                            htmlFor="ctg"
+                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                          >
+                            Category
+                          </label>
+                          <select name="ctg" id="ctg">
+                            {dataCtg?.findManyCategory.map((e) => (
+                              <option key={e.id} value={e.id}>
+                                {e.name}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                        <div className="mb-6">
+                          <label
+                            htmlFor="auth"
+                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                          >
+                            Author
+                          </label>
+                          <select name="auth" id="auth">
+                            {dataAuth?.findManyAuthor.map((e) => (
+                              <option key={e.id} value={e.id}>
+                                {e.name}
+                              </option>
+                            ))}
+                          </select>
                         </div>
                         <div className="ml-24">
                           <button
                             type="submit"
                             className="inline-flex justify-center rounded-md border border-transparent bg-green-100 px-10 py-2 text-sm font-medium text-blue-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                           >
-                            Yes
+                            Save
                           </button>
                           <button
                             type="button"
@@ -212,7 +159,7 @@ export default function AddBookModal({ isOpen, closeModal, onAdd }: ModalProp) {
               </div>
             </div>
           </Dialog>
-        </Transition> */}
+        </Transition>
       </div>
     </div>
   );

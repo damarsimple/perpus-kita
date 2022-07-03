@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 //   cover: string;
 // }
 
-export default function details() {
+export default function Details() {
   const router = useRouter();
   const { id, title, cover, auth } = router.query;
 

@@ -1,62 +1,27 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { useQuery } from "@apollo/client";
-import { User } from "../generated";
-import { MY_BALANCE } from "../graphql/queries";
-import ValidValanceModal from "./ValidBalanceModal";
-import ValidBalanceModal from "./ValidBalanceModal";
-import { useUserStore } from "../components/userStore";
 
 interface ModalProp {
   isOpen: boolean;
   closeModal: Function;
   onAdd: Function;
-  idBook: number;
-  title: string;
-  validBalance: boolean;
+  name: string;
 }
-export default function AddLoanModal({
+
+export default function EditCtgModal({
   isOpen,
   closeModal,
   onAdd,
-  idBook,
-  title,
-  validBalance = false,
+  name,
 }: ModalProp) {
-  const { user } = useUserStore();
   async function handleForm(e: any) {
     e.preventDefault();
+    const name = e.target.name.value;
 
-    onAdd();
+    onAdd(name);
   }
-
-  let [isOpenValid, setIsOpenValid] = useState(false);
-
-  const closeValidModal = () => {
-    setIsOpenValid(false);
-  };
-
-  const openValidModal = () => {
-    setIsOpenValid(true);
-  };
-
-  const { data: dataBalance } = useQuery<{ findUniqueUser: User }>(MY_BALANCE, {
-    variables: {
-      where: {
-        id: user?.id ?? 0,
-      },
-    },
-  });
-
-  const balance = dataBalance?.findUniqueUser?.balance || 0;
-
   return (
     <div>
-      {balance < 10 ? (
-        <ValidBalanceModal isOpen={isOpenValid} closeModal={closeValidModal} />
-      ) : (
-        ""
-      )}
       <div>
         <Transition appear show={isOpen} as={Fragment}>
           <Dialog
@@ -92,7 +57,7 @@ export default function AddLoanModal({
                       as="h3"
                       className="text-lg font-medium leading-6 text-gray-900"
                     >
-                      Apakah anda yakin akan meminjam buku {title} ?
+                      Form Edit Category
                     </Dialog.Title>
                     <div className="mt-2">
                       {/* <p className="text-sm text-gray-500">
@@ -103,42 +68,26 @@ export default function AddLoanModal({
                         <div className="mb-6">
                           <label
                             htmlFor="value"
-                            className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300"
+                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                           >
-                            Apabila anda yakin maka balance anda akan dikurangi
-                            sebesar $10
+                            Name Category
                           </label>
-                          <div className="flex items-start mb-6">
-                            <div className="flex items-center h-5">
-                              <input
-                                id="terms"
-                                type="checkbox"
-                                value=""
-                                className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
-                                required
-                                onClick={() => openValidModal()}
-                              />
-                            </div>
-                            <label
-                              htmlFor="terms"
-                              className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                            >
-                              I agree with the{" "}
-                              <a
-                                href="#"
-                                className="text-blue-600 hover:underline dark:text-blue-500"
-                              >
-                                terms and conditions
-                              </a>
-                            </label>
-                          </div>
+                          <input
+                            type="text"
+                            id="value"
+                            name="name"
+                            defaultValue={name}
+                            className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                            placeholder="Amount Top Up"
+                            required
+                          />
                         </div>
                         <div className="ml-24">
                           <button
                             type="submit"
                             className="inline-flex justify-center rounded-md border border-transparent bg-green-100 px-10 py-2 text-sm font-medium text-blue-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                           >
-                            Yes
+                            Save
                           </button>
                           <button
                             type="button"

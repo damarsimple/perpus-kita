@@ -1,18 +1,48 @@
-import React, { Fragment } from "react";
-import { Dialog, Transition } from "@headlessui/react";
+import React, { Fragment, useState } from "react";
+import { Combobox, Dialog, Transition } from "@headlessui/react";
+import { Author, Category } from "../generated";
+import { GET_AUTHORS, GET_CATE } from "../graphql/queries";
+import { useQuery } from "@apollo/client";
 
 interface ModalProp {
   isOpen: boolean;
   closeModal: Function;
-  onAdd: Function;
+  onEdit: Function;
+  titleBook: string;
+  coverBook: string;
+  idBook: number;
 }
-export default function AddAuthModal({ isOpen, closeModal, onAdd }: ModalProp) {
+export default function EditBookModal({
+  isOpen,
+  closeModal,
+  onEdit,
+  titleBook,
+  coverBook,
+  idBook,
+}: ModalProp) {
   async function handleForm(e: any) {
     e.preventDefault();
-    const name = e.target.name.value;
-
-    onAdd(name);
+    const title = e.target.title.value;
+    const cover = e.target.cover.value;
+    const authId = e.target.auth.value;
+    const ctgId = e.target.ctg.value;
+    onEdit(title, cover, Number(authId), Number(ctgId));
   }
+
+  const { data: dataCtg } = useQuery<{ findManyCategory: Category[] }>(
+    GET_CATE,
+    {}
+  );
+
+  const { data: dataAuth } = useQuery<{ findManyAuthor: Author[] }>(
+    GET_AUTHORS,
+    {
+      variables: {
+        take: 50,
+      },
+    }
+  );
+
   return (
     <div>
       <div>
@@ -50,29 +80,73 @@ export default function AddAuthModal({ isOpen, closeModal, onAdd }: ModalProp) {
                       as="h3"
                       className="text-lg font-medium leading-6 text-gray-900"
                     >
-                      Form Author
+                      Form Edit Buku
                     </Dialog.Title>
                     <div className="mt-2">
-                      {/* <p className="text-sm text-gray-500">
-                      Your payment has been successfully submitted. We’ve sent
-                      you an email with all of the details of your order.
-                    </p> */}
                       <form onSubmit={handleForm}>
                         <div className="mb-6">
                           <label
-                            htmlFor="name"
+                            htmlFor="title"
                             className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                           >
-                            Name Author
+                            Title
                           </label>
                           <input
                             type="text"
-                            id="name"
-                            name="name"
+                            id="title"
+                            name="title"
+                            defaultValue={titleBook}
                             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
-                            placeholder="Name Author"
+                            placeholder="Book Title"
                             required
                           />
+                        </div>
+                        <div className="mb-6">
+                          <label
+                            htmlFor="cover"
+                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                          >
+                            Cover
+                          </label>
+                          <input
+                            type="text"
+                            id="cover"
+                            name="cover"
+                            defaultValue={coverBook}
+                            className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                            placeholder="Book Cover"
+                            required
+                          />
+                        </div>
+                        <div className="mb-6">
+                          <label
+                            htmlFor="ctg"
+                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                          >
+                            Category
+                          </label>
+                          <select name="ctg" id="ctg">
+                            {dataCtg?.findManyCategory.map((e) => (
+                              <option key={e.id} value={e.id}>
+                                {e.name}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                        <div className="mb-6">
+                          <label
+                            htmlFor="auth"
+                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                          >
+                            Author
+                          </label>
+                          <select name="auth" id="auth">
+                            {dataAuth?.findManyAuthor.map((e) => (
+                              <option key={e.id} value={e.id}>
+                                {e.name}
+                              </option>
+                            ))}
+                          </select>
                         </div>
                         <div className="ml-24">
                           <button

@@ -2,9 +2,11 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import Button from "./Button";
+import { useUserStore } from "./userStore";
 
 export default function Navbar() {
   const { pathname, push } = useRouter();
+  const { user } = useUserStore();
   return (
     <nav className="flex gap-3 px-10 py-5 justify-between items-center">
       <h1 className="font-semibold text-2xl mr-10">
@@ -17,13 +19,13 @@ export default function Navbar() {
           {[
             { name: "Home", route: "/" },
             { name: "Find Your Book", route: "/find" },
-            { name: "About Us", route: "/about" },
+            { name: "About Us", route: "/team" },
           ].map((e) => (
             <Link key={e.name} href={e.route}>
               <a
                 className={
                   "mx-2 text-lg font-normal" +
-                  (pathname == e.route ? " text-green-400 " : "")
+                  (pathname == e.route ? " text-green-600 " : "")
                 }
               >
                 {e.name}
@@ -32,8 +34,8 @@ export default function Navbar() {
           ))}
         </div>
         <div className="flex ml-12">
-          <Button link="./dashboard/login" px={20}>
-            Login
+          <Button link={user != null ? "./dashboard" : "./login"} px={20}>
+            {user != null ? "Dashboard" : "Login"}
           </Button>
         </div>
       </div>
