@@ -34,7 +34,12 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
 - Damar Was here
-- Damar was here 3
+- Damar was here 
+
+
+test
+56
+
 - junna masuk
 - ijin join bang
 
@@ -43,6 +48,6 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 - misi numpang lewat
 
-- p n1g4
+- p mubarrok blackman
 
 
