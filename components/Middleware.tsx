@@ -1,11 +1,17 @@
-import { open } from "fs/promises";
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import ValidLoginModal from "../modals/ValidLoginModal";
 import { useUserStore } from "./userStore";
 
 export default function Middleware({ children }: { children: ReactNode }) {
   const { user, setUser } = useUserStore();
   let [isOpen, setIsOpen] = useState(true);
+
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    setReady(true)
+  }, [])
+  
 
   function closeModal() {
     setIsOpen(false);
@@ -15,8 +21,8 @@ export default function Middleware({ children }: { children: ReactNode }) {
     setIsOpen(true);
   }
 
-  if (user) {
-    return <>{children}</>;
+  if (user && ready) {
+    return <div>{children}</div>;
   }
 
   return (

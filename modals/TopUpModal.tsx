@@ -14,8 +14,6 @@ export default function TopUpModal({ isOpen, closeModal, onAdd }: ModalProp) {
     onAdd(Number(amount));
   }
   return (
-    <div>
-      <div>
         <Transition appear show={isOpen} as={Fragment}>
           <Dialog
             as="div"
@@ -98,7 +96,5 @@ export default function TopUpModal({ isOpen, closeModal, onAdd }: ModalProp) {
             </div>
           </Dialog>
         </Transition>
-      </div>
-    </div>
   );
 }

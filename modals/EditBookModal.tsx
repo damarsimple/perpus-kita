@@ -44,8 +44,6 @@ export default function EditBookModal({
   );
 
   return (
-    <div>
-      <div>
         <Transition appear show={isOpen} as={Fragment}>
           <Dialog
             as="div"
@@ -172,7 +170,5 @@ export default function EditBookModal({
             </div>
           </Dialog>
         </Transition>
-      </div>
-    </div>
   );
 }

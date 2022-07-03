@@ -12,8 +12,6 @@ interface ModalProp {
 }
 export default function SuccesModal({ isOpen, closeModal }: ModalProp) {
   return (
-    <div>
-      <div>
         <Transition appear show={isOpen} as={Fragment}>
           <Dialog
             as="div"
@@ -95,7 +93,5 @@ export default function SuccesModal({ isOpen, closeModal }: ModalProp) {
             </div>
           </Dialog>
         </Transition>
-      </div>
-    </div>
   );
 }

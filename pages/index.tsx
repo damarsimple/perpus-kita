@@ -10,6 +10,7 @@ import Footer from "../components/Footer";
 import Middleware from "../components/Middleware";
 import Navbar from "../components/Navbar";
 import { Book, findManyBookCountArgs } from "../generated";
+import { BOOK_COUNT } from "../graphql/queries";
 import ValidLoginModal from "../modals/ValidLoginModal";
 import styles from "../styles/Home.module.css";
 
@@ -17,19 +18,11 @@ const Home: NextPage = () => {
   const { pathname, push } = useRouter();
   let [isOpen, setIsOpen] = useState(true);
 
-  const BOOK_COUNT = gql`
-    query FindManyBook {
-      findManyBookCount
-    }
-  `;
-
-  type count = number;
-
   const {
     loading,
     error,
     data: BookCount,
-  } = useQuery<{ findManyBookCount: count }>(BOOK_COUNT);
+  } = useQuery<{ findManyBookCount: number }>(BOOK_COUNT);
 
   if (loading)
     return (
@@ -166,10 +159,10 @@ const Home: NextPage = () => {
             <span className="text-green-500 font-semibold">PERPUS</span>kita?
           </h3>
           <p className="text-gray-500 mt-5">
-            PERPUSkita wherever you are with only $5 to borrow <br />
-            a book and $5 for shipping you can already get
+            PERPUSkita wherever you are with only $10 to borrow <br />
+            a <strong>book</strong>
             <br />
-            the book of your dreams.
+            start borrow the book of your dreams.
           </p>
         </div>
         <div className="mx-auto">
@@ -178,11 +171,11 @@ const Home: NextPage = () => {
       </section>
       <section className="flex justify-between text-center mt-5">
         <div className="mx-auto">
-          <Image src={"/why.svg"} height={400} width={600}></Image>
+          <Image src={"/why.svg"} height={400} width={600}              alt=""></Image>
         </div>
         <div className="self-center mx-auto">
           <h3 className="font-medium text-3xl text-gray-700">
-            Let's <span className="text-green-500 font-semibold">Join Us</span>
+            Let&apos;s <span className="text-green-500 font-semibold">Join Us</span>
           </h3>
           <p className="text-gray-500 my-3">
             Create an account and start exxploring

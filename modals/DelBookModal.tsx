@@ -23,8 +23,6 @@ export default function DelBookModal({
   }
 
   return (
-    <div>
-      <div>
         <Transition appear show={isOpen} as={Fragment}>
           <Dialog
             as="div"
@@ -87,7 +85,5 @@ export default function DelBookModal({
             </div>
           </Dialog>
         </Transition>
-      </div>
-    </div>
   );
 }

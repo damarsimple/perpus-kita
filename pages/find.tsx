@@ -7,66 +7,65 @@ import CardBook from "../components/CardBook";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { Book } from "../generated";
-import { BORROW, GET_BOOKS } from "../graphql/queries";
+import { BOOK_COUNT, BORROW, GET_BOOKS } from "../graphql/queries";
 import { useUserStore } from "../components/userStore";
+import BookPaginationModal from "../modals/BookPaginationModal";
 
 export default function Find() {
+  const take = 12;
+
+  const [currentPage, setCurrentPage] = useState(0);
+  const [searchInput, setSearchInput] = useState("");
   const {
     loading,
     error,
     data: dataBook,
   } = useQuery<{ findManyBook: Book[] }>(GET_BOOKS, {
     variables: {
-      take: 10,
-    },
-  });
-
-  let [isOpenBor, setIsOpenBor] = useState(false);
-  let [idBook, setIdBook] = useState(Number);
-  let [titleBook, setTitleBook] = useState(String);
-  const { user } = useUserStore();
-
-  function closeBorModal() {
-    setIsOpenBor(false);
-  }
-
-  function openBorModal(idNow: number, titleNow: string) {
-    setIdBook(idNow);
-    setTitleBook(titleNow);
-    setIsOpenBor(true);
-  }
-
-  const [createOneUserLoan] = useMutation(BORROW, {
-    onCompleted: (e) => {
-      // closeBorModal();
-      e.preventDefault();
-      // window.location.reload();
-    },
-  });
-
-  const onBor = (idBook: number, e: any) => {
-    e.preventDefault();
-    createOneUserLoan({
-      variables: {
-        data: {
-          user: {
-            connect: {
-              id: user?.id ?? 0,
-            },
-          },
-          book: {
-            connect: {
-              id: idBook,
-            },
-          },
-          loanExpiredAt: "2022-7-8",
-          createdAt: "2022-7-1",
-          price: 10,
-          status: "APPROVED",
+      take,
+      skip: currentPage * take,
+      where: {
+        title: {
+          contains: searchInput ?? undefined,
         },
       },
-    });
+    },
+  });
+
+  const { data: BookCount } = useQuery<{ findManyBookCount: number }>(
+    BOOK_COUNT
+  );
+
+  const generatePagination = () => {
+    if (!BookCount?.findManyBookCount) return {};
+
+    const totalPage = Math.ceil(BookCount.findManyBookCount / take);
+
+    const pagination = [];
+    for (let i = 0; i < totalPage; i++) {
+      pagination.push(i);
+    }
+
+    const pages = [];
+
+    for (let index = 0; index < 10; index++) {
+      const element = pagination[index];
+      pages.push(element);
+    }
+
+    return {
+      pages,
+      lastPage: totalPage,
+    };
   };
+
+  const pagesD = generatePagination();
+
+  const { pages, lastPage = 0 } = pagesD;
+
+  const [openModal, setOpenModal] = useState(false);
+
+  const [commitPage, setCommitPage] = useState(0);
 
   return (
     <div>
@@ -83,12 +82,14 @@ export default function Find() {
             <input
               type="text"
               className="py-1 px-32 rounded-xl border-green-600 text-gray-700"
+        
+              value={searchInput}
+              onChange={(e) => {
+                setCurrentPage(0)
+                setSearchInput(e.target.value);
+              }}
             />
-            <div className="h-full ml-4">
-              <Link href="#">
-                <Button px={20}>Search</Button>
-              </Link>
-            </div>
+          
           </div>
         </section>
         <section className="mt-10">
@@ -145,6 +146,111 @@ export default function Find() {
               // </div>
             ))}
           </div>
+        </section>
+
+        <BookPaginationModal isOpen={openModal} setOpen={setOpenModal}>
+          <input
+            type="text"
+            id="value"
+            name="name"
+            className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+            required
+            value={commitPage}
+            onChange={(e) => setCommitPage(Number(e.target.value))}
+          />
+          <button
+            style={{
+              paddingLeft: 20,
+              paddingRight: 20,
+            }}
+            className="text-lg font-medium hover:bg-green-600 py-1 px-4 bg-green-400 shadow-md text-white rounded-full"
+            onClick={() => {
+              if (commitPage == 0 || commitPage > (lastPage ?? 0)) {
+                return;
+              }
+
+              setCurrentPage(commitPage);
+              setOpenModal(false);
+            }}
+          >
+            SUBMIT
+          </button>
+        </BookPaginationModal>
+
+        <section className="mt-10 flex justify-center gap-1">
+          <button
+            style={{
+              paddingLeft: 20,
+              paddingRight: 20,
+            }}
+            onClick={() => {
+              setCurrentPage(currentPage < 1 ? currentPage : currentPage - 1);
+            }}
+            className={`text-lg font-medium hover:bg-green-600 py-1 px-4 ${
+              currentPage == lastPage ? "bg-blue-400" : "bg-green-400"
+            } shadow-md text-white rounded-full`}
+          >
+            {"<"}
+          </button>
+          {pages?.map((e) => (
+            <button
+              key={e}
+              style={{
+                paddingLeft: 20,
+                paddingRight: 20,
+              }}
+              onClick={() => {
+                setCurrentPage(e);
+              }}
+              className={`text-lg font-medium hover:bg-green-600 py-1 px-4 ${
+                currentPage == e ? "bg-blue-400" : "bg-green-400"
+              } shadow-md text-white rounded-full`}
+            >
+              {e < 10 ? e + 1 : e}
+            </button>
+          ))}
+          <button
+            onClick={() => {
+              setOpenModal(true);
+            }}
+            style={{
+              paddingLeft: 20,
+              paddingRight: 20,
+            }}
+            className={`text-lg font-medium hover:bg-green-600 py-1 px-4 bg-green-400 shadow-md text-white rounded-full`}
+          >
+            Go To
+          </button>
+          <button
+            style={{
+              paddingLeft: 20,
+              paddingRight: 20,
+            }}
+            onClick={() => {
+              setCurrentPage(lastPage ?? 0);
+            }}
+            className={`text-lg font-medium hover:bg-green-600 py-1 px-4 ${
+              currentPage == lastPage ? "bg-blue-400" : "bg-green-400"
+            } shadow-md text-white rounded-full`}
+          >
+            {lastPage}
+          </button>
+          <button
+            style={{
+              paddingLeft: 20,
+              paddingRight: 20,
+            }}
+            onClick={() => {
+              setCurrentPage(
+                currentPage > lastPage ? currentPage : currentPage + 1
+              );
+            }}
+            className={`text-lg font-medium hover:bg-green-600 py-1 px-4 ${
+              currentPage == lastPage ? "bg-blue-400" : "bg-green-400"
+            } shadow-md text-white rounded-full`}
+          >
+            {">"}
+          </button>
         </section>
       </div>
       <section className="mt-5">

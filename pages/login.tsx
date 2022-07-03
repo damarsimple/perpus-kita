@@ -64,7 +64,7 @@ export default function Login() {
     <div className="flex justify-center text-center my-auto self-center overflow-hidden">
       <div className="bg-green-400 w-full h-screen mx-auto self-center">
         <div className="mx-auto ">
-          <img className="mx-auto" src="/admin.svg" />
+          <img className="mx-auto" src="/admin.svg"              alt="" />
         </div>
       </div>
       <div className="bg-slate-100 w-full h-screen text-center self-center overflow-hidden ">
@@ -79,12 +79,14 @@ export default function Login() {
             <input
               type="text"
               name="email"
+              required
               className=" rounded-xl bg-white border-0 shadow-md py-1 px-20 mb-4"
             />
             <p className="mb-3">Password</p>
             <input
               type="password"
               name="pass"
+              required
               className=" rounded-xl bg-white border-0 shadow-md py-1 px-20 mb-8"
             />
             <div className="">

@@ -20,8 +20,6 @@ export default function EditAuthModal({
     onAdd(name);
   }
   return (
-    <div>
-      <div>
         <Transition appear show={isOpen} as={Fragment}>
           <Dialog
             as="div"
@@ -105,7 +103,5 @@ export default function EditAuthModal({
             </div>
           </Dialog>
         </Transition>
-      </div>
-    </div>
   );
 }

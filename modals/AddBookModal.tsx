@@ -34,8 +34,6 @@ export default function AddBookModal({ isOpen, closeModal, onAdd }: ModalProp) {
   );
 
   return (
-    <div>
-      <div>
         <Transition appear show={isOpen} as={Fragment}>
           <Dialog
             as="div"
@@ -160,7 +158,5 @@ export default function AddBookModal({ isOpen, closeModal, onAdd }: ModalProp) {
             </div>
           </Dialog>
         </Transition>
-      </div>
-    </div>
   );
 }

@@ -1,12 +1,24 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
 import Button from "./Button";
 import { useUserStore } from "./userStore";
+import {useEffect} from 'react';
 
 export default function Navbar() {
   const { pathname, push } = useRouter();
   const { user } = useUserStore();
+
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    setReady(true)
+
+  },[user])
+
+
+  if(!ready) return <></>
+
   return (
     <nav className="flex gap-3 px-10 py-5 justify-between items-center">
       <h1 className="font-semibold text-2xl mr-10">

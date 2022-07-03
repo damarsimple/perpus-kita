@@ -23,8 +23,6 @@ export default function DelCtgModal({
   }
 
   return (
-    <div>
-      <div>
         <Transition appear show={isOpen} as={Fragment}>
           <Dialog
             as="div"
@@ -87,7 +85,5 @@ export default function DelCtgModal({
             </div>
           </Dialog>
         </Transition>
-      </div>
-    </div>
   );
 }

@@ -51,13 +51,12 @@ export default function AddLoanModal({
   const balance = dataBalance?.findUniqueUser?.balance || 0;
 
   return (
-    <div>
+    <>
       {balance < 10 ? (
         <ValidBalanceModal isOpen={isOpenValid} closeModal={closeValidModal} />
       ) : (
         ""
       )}
-      <div>
         <Transition appear show={isOpen} as={Fragment}>
           <Dialog
             as="div"
@@ -157,7 +156,6 @@ export default function AddLoanModal({
             </div>
           </Dialog>
         </Transition>
-      </div>
-    </div>
+    </>
   );
 }
