@@ -64,7 +64,7 @@ export default function Login() {
     <div className="flex justify-center text-center my-auto self-center overflow-hidden">
       <div className="bg-green-400 w-full h-screen mx-auto self-center">
         <div className="mx-auto ">
-          <img className="mx-auto" src="/admin.svg" />
+          <img className="mx-auto" src="/admin.svg"              alt="" />
         </div>
       </div>
       <div className="bg-slate-100 w-full h-screen text-center self-center overflow-hidden ">

@@ -113,6 +113,7 @@ export default function CardBook({
       <div className="rounded-lg drop-shadow-xl bg-white">
         <div>
           <Image
+                         alt=""
             src={image}
             height={400}
             width={300}

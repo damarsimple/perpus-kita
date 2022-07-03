@@ -15,7 +15,7 @@ export default function NotFound() {
         </h1>
       </div>
       <div className="font-normal text-center text-gray-400 mt-2">
-        <p>Sorry, we don't want this to happen either</p>
+        <p>Sorry, we don&apos;t want this to happen either</p>
       </div>
       <div className="text-center mt-6">
         <Button px={120} link="/">

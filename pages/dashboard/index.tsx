@@ -6,7 +6,7 @@ import { useUserStore } from "../../components/userStore";
 import Image from "next/image";
 import Middleware from "../../components/Middleware";
 
-export default function dashboard() {
+export default function DDashboard() {
   const { user, setUser } = useUserStore();
   return (
     <Middleware>

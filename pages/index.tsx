@@ -178,11 +178,11 @@ const Home: NextPage = () => {
       </section>
       <section className="flex justify-between text-center mt-5">
         <div className="mx-auto">
-          <Image src={"/why.svg"} height={400} width={600}></Image>
+          <Image src={"/why.svg"} height={400} width={600}              alt=""></Image>
         </div>
         <div className="self-center mx-auto">
           <h3 className="font-medium text-3xl text-gray-700">
-            Let's <span className="text-green-500 font-semibold">Join Us</span>
+            Let&apos;s <span className="text-green-500 font-semibold">Join Us</span>
           </h3>
           <p className="text-gray-500 my-3">
             Create an account and start exxploring

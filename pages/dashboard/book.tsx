@@ -258,7 +258,7 @@ export default function DataBook() {
                           </div>
                         </td>
                         {categories.map((e) => (
-                          <td className="py-4 px-4">{e.name}</td>
+                          <td key={e.name} className="py-4 px-4">{e.name}</td>
                         ))}
 
                         <td className="py-4 px-4">{author.name}</td>

@@ -5,7 +5,7 @@ import Dashboard from "../../components/Dashboard";
 import { UserLoan } from "../../generated";
 import { GET_BOOKS, GET_LOANS } from "../../graphql/queries";
 
-export default function req() {
+export default function Req() {
   const {
     loading,
     error,

@@ -82,7 +82,7 @@ export default function Register() {
       {errorMessage}
       <div className="bg-green-400 w-full h-screen mx-auto self-center">
         <div className="mx-auto ">
-          <img className="mx-auto" src="/admin.svg" />
+          <img              alt="" className="mx-auto" src="/admin.svg" />
         </div>
       </div>
       <div className="bg-slate-100 w-full h-screen text-center self-center overflow-auto">
